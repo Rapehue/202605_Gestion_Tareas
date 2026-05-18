@@ -1,0 +1,1 @@
+export const toNumber = (v) => Number(v) || 0;

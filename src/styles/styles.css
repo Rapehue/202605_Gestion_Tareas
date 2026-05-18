@@ -1,0 +1,65 @@
+/* RESET BÁSICO */
+* {
+  box-sizing: border-box;
+  font-family: Inter, system-ui, Arial;
+}
+
+body {
+  margin: 0;
+  background: #f5f7fa;
+  color: #1f2937;
+}
+
+/* CONTENEDOR APP */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* TITULOS */
+h1 {
+  margin-bottom: 20px;
+}
+
+/* BOTONES */
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+/* INPUTS */
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* LABELS */
+label {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 4px;
+  display: block;
+}
+
+button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}

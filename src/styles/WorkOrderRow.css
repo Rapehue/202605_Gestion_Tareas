@@ -1,0 +1,29 @@
+.wo-card {
+  background: white;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.wo-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px;
+  cursor: pointer;
+  background: #f9fafb;
+}
+
+.wo-header:hover {
+  background: #f3f4f6;
+}
+
+.wo-body {
+  padding: 14px;
+}
+
+.wo-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}

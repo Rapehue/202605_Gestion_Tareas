@@ -1,0 +1,10 @@
+.hitos-summary {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.warning {
+  color: #b91c1c;
+  font-weight: bold;
+}
