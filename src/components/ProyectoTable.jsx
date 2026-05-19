@@ -1,36 +1,52 @@
-import '../styles/Proyectotable.css';
+import DataTable
+  from '@/components/datatable/DataTable';
 
-const ProyectoTable = ({ proyectos, onEdit, onView }) => {
+import { Badge }
+  from '@/components';
+
+const ProyectoTable = ({
+  projects,
+  loading,
+  onOpen
+}) => {
+
+  const columns = [
+
+    {
+      key: 'codigo',
+      label: 'Código'
+    },
+
+    {
+      key: 'nombre',
+      label: 'Nombre'
+    },
+
+    {
+      key: 'estado',
+      label: 'Estado',
+
+      render: (value) => (
+        <Badge>
+          {value}
+        </Badge>
+      )
+    },
+
+    {
+      key: 'cliente',
+      label: 'Cliente'
+    }
+
+  ];
+
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>Código</th>
-          <th>Nombre</th>
-          <th>Gestor</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {proyectos.map(p => (
-          <tr key={p.id}>
-            <td>{p.codigo}</td>
-            <td>{p.nombre}</td>
-            <td>{p.gestor?.nombre_completo}</td>
-            <td>
-              <button onClick={() => onEdit(p)}>
-                Editar
-              </button>
-
-              <button onClick={() => onView(p)}>
-                Ver
-              </button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <DataTable
+      columns={columns}
+      data={projects}
+      loading={loading}
+      onRowClick={onOpen}
+    />
   );
 };
 

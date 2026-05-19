@@ -2,10 +2,10 @@ import { useDashboard } from '../hooks/useDashboard';
 
 const Dashboard = () => {
 
-  const { data = {}, loading } = useDashboard(1);
+  const { data, loading } = useDashboard(1);
 
-  const workOrders = data.workOrders || [];
-  const hitos = data.hitos || [];
+  const workOrders = data?.workOrders ?? [];
+  const hitos = data?.hitos ?? [];
 
   // KPIs
   const totalWO = workOrders.length;

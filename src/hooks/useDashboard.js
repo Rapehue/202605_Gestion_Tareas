@@ -3,8 +3,16 @@ import { getDashboard } from '../api/dashboardApi';
 
 export const useDashboard = (projectId) => {
 
-  return useQuery(
+  const query = useQuery(
     `dashboard-${projectId}`,
     () => getDashboard(projectId)
   );
+
+  return {
+    ...query,
+    data: {
+      workOrders: query.data?.workOrders || [],
+      hitos: query.data?.hitos || []
+    }
+  };
 };

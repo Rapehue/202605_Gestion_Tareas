@@ -1,0 +1,11 @@
+:root {
+
+  --layout-sidebar-width: 260px;
+
+  --layout-header-height: 72px;
+
+  --container-xl: 1440px;
+  --container-lg: 1200px;
+  --container-md: 960px;
+
+}
