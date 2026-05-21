@@ -72,3 +72,12 @@
   right: 0;
   background: white;
 }
+
+.row-clickable {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.row-clickable:hover {
+  background-color: var(--color-bg-hover, #f5f5f5); /* O la variable de color que uses */
+}

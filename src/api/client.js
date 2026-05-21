@@ -1,16 +1,20 @@
 import axios from 'axios';
 
-const api = axios.create({
-  baseURL: 'http://localhost:3000/api'
+const apiClient = axios.create({
+  baseURL: 'http://localhost:3000/api',
+  headers: {
+    'Content-Type': 'application/json'
+  }
 });
 
-// 🔥 interceptor global
-api.interceptors.response.use(
-  (response) => response.data,
+// 💡 Interceptor mágico: extrae el .data automáticamente de todas las respuestas
+apiClient.interceptors.response.use(
+  (response) => response.data, 
   (error) => {
-    console.error('API ERROR:', error);
+    // Aquí puedes centralizar errores globales (ej: si es 401, redirigir a Login)
+    console.error('Error en la API:', error.response?.data || error.message);
     return Promise.reject(error);
   }
 );
 
-export default api;
+export default apiClient;

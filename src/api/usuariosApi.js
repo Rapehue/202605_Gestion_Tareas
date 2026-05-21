@@ -1,6 +1,11 @@
-import axios from 'axios';
+import apiClient from './client'; // 👈 Consumimos tu instancia centralizada
 
-const API_URL = 'http://localhost:3000/api';
-
-export const searchUsuarios = (q) =>
-  axios.get(`${API_URL}/usuarios/search?q=${q}`);
+export const searchUsuarios = (query) => {
+  return apiClient.get('/usuarios/search', {
+    // 💡 Al pasarlo en 'params', Axios se encarga de formatear la URL 
+    // automáticamente como '?q=...' y de codificar caracteres especiales (URL Encoding)
+    params: {
+      q: query
+    }
+  });
+};

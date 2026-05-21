@@ -1,12 +1,14 @@
-import axios from 'axios';
+import apiClient from './client'; // 👈 Importamos tu cliente configurado
 
-const API_URL = 'http://localhost:3000/api';
+export const getProyectos = () => 
+  apiClient.get('/proyectos');
 
-export const getProyectos = () =>
-  axios.get(`${API_URL}/proyectos`);
+// 🔍 ¡Añadido! Esencial para tu pantalla de detalle del proyecto (/proyectos/:id)
+export const getProyectoById = (id) => 
+  apiClient.get(`/proyectos/${id}`);
 
-export const createProyecto = (data) =>
-  axios.post(`${API_URL}/proyectos`, data);
+export const createProyecto = (data) => 
+  apiClient.post('/proyectos', data);
 
-export const updateProyecto = (id, data) =>
-  axios.put(`${API_URL}/proyectos/${id}`, data);
+export const updateProyecto = (id, data) => 
+  apiClient.put(`/proyectos/${id}`, data);

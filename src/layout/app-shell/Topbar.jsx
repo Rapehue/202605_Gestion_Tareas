@@ -12,7 +12,9 @@ const Topbar = () => {
 
         <input
           className="global-search"
-          placeholder="Buscar..."
+          placeholder="Buscar... (Ctrl + K)"
+          readOnly // Evita que escriban directamente si vas a usar un modal flotante
+          onClick={() => console.log('Abrir buscador global o modal de comandos')}
         />
 
         <UserMenu />

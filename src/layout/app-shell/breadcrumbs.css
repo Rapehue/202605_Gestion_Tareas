@@ -1,0 +1,23 @@
+.breadcrumbs {
+  font-size: var(--font-size-sm, 14px);
+  color: var(--color-text-muted, #666);
+}
+
+.breadcrumb-link {
+  color: var(--color-primary, #0070f3);
+  text-decoration: none;
+}
+
+.breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb-current {
+  color: var(--color-text-main, #333);
+  font-weight: 500;
+}
+
+.breadcrumb-separator {
+  color: #ccc;
+  margin: 0 4px;
+}
