@@ -40,7 +40,6 @@ const ProyectoTable = ({
     }
   };
 
-  console.log ({data})
 
   return (
     <DataTable

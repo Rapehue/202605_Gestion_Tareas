@@ -1,70 +1,234 @@
-import { useEffect, useState } from 'react';
-import { getWorkOrdersByProject } from '../api/workOrdersApi';
+import { useEffect, useMemo, useState } from 'react';
 
-const ProjectKPIs = ({ projectId, refresh = 0}) => {
+import {
+  Receipt,
+  Briefcase,
+  CalendarDays
+} from 'lucide-react';
 
-  const [kpis, setKpis] = useState({
-    totalCost: 0,
-    totalDays: 0,
-    totalWO: 0
-  });
+import { getWorkOrdersByProject }
+  from '../api/workordersApi';
+
+import Card from '@/components/ui/Card';
+
+import './ProjectKPIs.css';
+
+const currencyFormatter =
+  new Intl.NumberFormat(
+    'es-ES',
+    {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 0
+    }
+  );
+
+const numberFormatter =
+  new Intl.NumberFormat('es-ES');
+
+const ProjectKPIs = ({
+  projectId,
+  refresh = 0
+}) => {
+
+  const [workOrders, setWorkOrders] =
+    useState([]);
+
+  const [loading, setLoading] =
+    useState(false);
+
+  // =====================================================
+  // LOAD
+  // =====================================================
+
+  const load = async () => {
+
+    try {
+
+      setLoading(true);
+
+      const response =
+        await getWorkOrdersByProject(
+          projectId
+        );
+
+      const data =
+        response?.data ||
+        response ||
+        [];
+
+      setWorkOrders(
+        Array.isArray(data)
+          ? data
+          : []
+      );
+
+    } catch (error) {
+
+      console.error(
+        'ERROR PROJECT KPIS:',
+        error
+      );
+
+      setWorkOrders([]);
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
+  };
 
   useEffect(() => {
+
+    if (!projectId) return;
+
     load();
+
   }, [projectId, refresh]);
 
-  // Busquemos tu función load() o el bloque donde calculas los KPIs
-const load = async () => {
-  try {
-    // 1. Supongamos que llamas a tu API para traer las órdenes de trabajo
-    const response = await getWorkOrdersByProject(projectId);
-    
-    // 🛡️ 2. EL BLINDAJE VITAL: Aseguramos que si la API falla, viene vacía 
-    // o no encuentra datos, 'workOrders' sea SIEMPRE un array nativo []
-    const workOrders = response || []; 
+  // =====================================================
+  // KPIs
+  // =====================================================
 
-    // 3. Tu línea 21 que estaba fallando:
-    // Ahora, si workOrders está vacío, el .reduce() no romperá la aplicación; devolverá 0 de forma segura.
-    const totalPresupuesto = workOrders.reduce((acumulado, current) => {
-      return acumulado + (Number(current.precio) || 0);
-    }, 0);
+  const kpis = useMemo(() => {
 
-    const totalJornadas = workOrders.reduce((acumulado, current) => {
-      return acumulado + (Number(current.jornadas) || 0);
-    }, 0);
+    const totalCost =
+      workOrders.reduce(
+        (acc, wo) =>
+          acc +
+          (Number(wo.precio) || 0),
+        0
+      );
 
-    // setStates de tus KPIs...
-    setKpis({
-      presupuesto: totalPresupuesto,
-      jornadas: totalJornadas,
-      cantidadWo: workOrders.length
-    });
+    const totalDays =
+      workOrders.reduce(
+        (acc, wo) =>
+          acc +
+          (Number(wo.jornadas) || 0),
+        0
+      );
 
-  } catch (error) {
-    console.error("Error calculando los KPIs del proyecto:", error);
-  }
-};
+    const totalWO =
+      workOrders.length;
+
+    return {
+      totalCost,
+      totalDays,
+      totalWO
+    };
+
+  }, [workOrders]);
+
+  // =====================================================
+  // RENDER
+  // =====================================================
 
   return (
-    <div className="kpis">
 
-      <div className="kpi">
-        <span>Coste Total</span>
-        <strong>{kpis.totalCost} €</strong>
-      </div>
+    <div className="project-kpis-grid">
 
-      <div className="kpi">
-        <span>Jornadas</span>
-        <strong>{kpis.totalDays}</strong>
-      </div>
+      <Card
+        horizontal
+        className="project-kpi-card"
+      >
 
-      <div className="kpi">
-        <span>Work Orders</span>
-        <strong>{kpis.totalWO}</strong>
-      </div>
+        <div className="project-kpi-icon blue">
+
+          <Receipt size={20} />
+
+        </div>
+
+        <div className="project-kpi-content">
+
+          <span className="project-kpi-label">
+            Coste Total
+          </span>
+
+          <strong className="project-kpi-value">
+
+            {loading
+              ? '...'
+              : currencyFormatter.format(
+                kpis.totalCost
+              )
+            }
+
+          </strong>
+
+        </div>
+
+      </Card>
+
+      <Card
+        horizontal
+        className="project-kpi-card"
+      >
+
+        <div className="project-kpi-icon purple">
+
+          <CalendarDays size={20} />
+
+        </div>
+
+        <div className="project-kpi-content">
+
+          <span className="project-kpi-label">
+            Jornadas
+          </span>
+
+          <strong className="project-kpi-value">
+
+            {loading
+              ? '...'
+              : numberFormatter.format(
+                kpis.totalDays
+              )
+            }
+
+          </strong>
+
+        </div>
+
+      </Card>
+
+      <Card
+        horizontal
+        className="project-kpi-card"
+      >
+
+        <div className="project-kpi-icon green">
+
+          <Briefcase size={20} />
+
+        </div>
+
+        <div className="project-kpi-content">
+
+          <span className="project-kpi-label">
+            Work Orders
+          </span>
+
+          <strong className="project-kpi-value">
+
+            {loading
+              ? '...'
+              : numberFormatter.format(
+                kpis.totalWO
+              )
+            }
+
+          </strong>
+
+        </div>
+
+      </Card>
 
     </div>
+
   );
+
 };
 
 export default ProjectKPIs;

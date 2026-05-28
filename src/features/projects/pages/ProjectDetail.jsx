@@ -33,6 +33,7 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
         const foundProject = await getProyectoById(Number(projectId));
         if (isMounted) {
           setProject(foundProject);
+          console.log(foundProject);
         }
       } catch (error) {
         console.error("Error al cargar el detalle del proyecto:", error);
@@ -46,87 +47,116 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
     };
   }, [projectId, triggerReload]); // 👈 Línea 56 revisada y perfectamente cerrada
 
-  
-const reloadAll = () => {
-  setTriggerReload(prev => !prev); // Alternar el booleano dispara el useEffect de arriba de forma limpia
-};
 
-if (!project) return <div className="loading-state">Cargando detalles del proyecto...</div>;
+  const reloadAll = () => {
+    setTriggerReload(prev => !prev); // Alternar el booleano dispara el useEffect de arriba de forma limpia
+  };
 
-return (
-  <div className="project-detail">
+  if (!project) return <div className="loading-state">Cargando detalles del proyecto...</div>;
 
-    {/* HEADER */}
-    <div className="header">
-      {/* Aquí tus datos ya lucen limpios y normalizados */}
-      <h2>{project.codigo} - {project.nombre}</h2>
-      <span className="subtitle">
-        {project.plan} / {project.eje}
-      </span>
-    </div>
+  return (
+    <div className="project-detail">
 
-    {/* KPIs */}
-    {/* Pasamos el mismo trigger para que los KPIs se actualicen en sincronía */}
-    <ProjectKPIs projectId={projectId} refresh={triggerReload} />
+      {/* HEADER */}
+      <div className="header">
+        {/* Aquí tus datos ya lucen limpios y normalizados */}
+        <h2>{project.codigo} - {project.nombre}</h2>
+        {/* <span className="subtitle">
+          {project.plan} / {project.eje}
+        </span> */}
+      </div>
 
-    {/* TABS */}
-    <div className="tabs" role="tablist">
-      <button
-        className={activeTab === 'general' ? 'active' : ''}
-        onClick={() => setActiveTab('general')}
-        role="tab"
-        aria-selected={activeTab === 'general'}
+      {/* KPIs */}
+      {/* Pasamos el mismo trigger para que los KPIs se actualicen en sincronía */}
+      <ProjectKPIs projectId={projectId} refresh={triggerReload} />
+
+      {/* TABS */}
+      <div
+        className="project-tabs"
+        role="tablist"
       >
-        General
-      </button>
 
-      <button
-        className={activeTab === 'wo' ? 'active' : ''}
-        onClick={() => setActiveTab('wo')}
-        role="tab"
-        aria-selected={activeTab === 'wo'}
-      >
-        Work Orders
-      </button>
-    </div>
+        <button
+          className={`
+      project-tab
+      ${activeTab === 'general'
+              ? 'active'
+              : ''
+            }
+    `}
+          onClick={() =>
+            setActiveTab('general')
+          }
+          role="tab"
+          aria-selected={
+            activeTab === 'general'
+          }
+        >
 
-    {/* CONTENIDO */}
-    <div className="tab-content">
-      {activeTab === 'general' && (
-        <GeneralTab project={project} />
-      )}
+          General
 
-      {activeTab === 'wo' && (
-        <WorkOrdersPanel
+        </button>
+
+        <button
+          className={`
+      project-tab
+      ${activeTab === 'wo'
+              ? 'active'
+              : ''
+            }
+    `}
+          onClick={() =>
+            setActiveTab('wo')
+          }
+          role="tab"
+          aria-selected={
+            activeTab === 'wo'
+          }
+        >
+
+          Work Orders
+
+        </button>
+
+      </div>
+
+      {/* CONTENIDO */}
+      <div className="tab-content">
+        {activeTab === 'general' && (
+          <GeneralTab project={project} />
+        )}
+
+        {activeTab === 'wo' && (
+          <WorkOrdersPanel
+            projectId={projectId}
+            refresh={triggerReload} // Sincronizado
+            onCreate={() => {
+              setSelectedWO(null);
+              setOpenWO(true);
+            }}
+            onEdit={(wo) => {
+              setSelectedWO(wo);
+              setOpenWO(true);
+            }}
+          />
+        )}
+      </div>
+
+      {/* MODAL DE WORK ORDERS */}
+      {openWO && (
+        <WorkOrderModal
+          open={openWO}
+          onClose={() => setOpenWO(false)}
+          workOrder={selectedWO}
           projectId={projectId}
-          refresh={triggerReload} // Sincronizado
-          onCreate={() => {
-            setSelectedWO(null);
-            setOpenWO(true);
-          }}
-          onEdit={(wo) => {
-            setSelectedWO(wo);
-            setOpenWO(true);
+          onSaved={() => {
+            setOpenWO(false);
+            reloadAll(); // ⚡ Ejecuta la recarga en cascada de proyecto, KPIs y paneles
           }}
         />
       )}
     </div>
-
-    {/* MODAL DE WORK ORDERS */}
-    {openWO && (
-      <WorkOrderModal
-        open={openWO}
-        onClose={() => setOpenWO(false)}
-        workOrder={selectedWO}
-        projectId={projectId}
-        onSaved={() => {
-          setOpenWO(false);
-          reloadAll(); // ⚡ Ejecuta la recarga en cascada de proyecto, KPIs y paneles
-        }}
-      />
-    )}
-  </div>
-);
+  );
 };
 
 export default ProjectDetail;

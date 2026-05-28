@@ -1,14 +1,27 @@
 import './card.css';
 
 const Card = ({
-  children
+  children,
+  className = '',
+  horizontal = false
 }) => {
 
   return (
-    <div className="card">
+
+    <div
+      className={`
+        card
+        ${horizontal ? 'horizontal' : ''}
+        ${className}
+      `}
+    >
+
       {children}
+
     </div>
+
   );
+
 };
 
 export default Card;

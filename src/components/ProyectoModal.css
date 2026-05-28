@@ -1,0 +1,7 @@
+/* Fuerza a que el cuerpo del modal sea ancho y aproveche la pantalla */
+.ui-modal-container, 
+.modal-content {
+  width: 95% !important;
+  max-width: 1050px !important; /* Ancho premium ideal para formularios complejos */
+  border-radius: 14px;
+}

@@ -1,7 +1,25 @@
-import { useWorkOrders } from '../hooks/useWorkOrders';
-import WorkOrderCard from './WorkOrderCard';
+import {
+  BriefcaseBusiness,
+  Plus,
+  AlertCircle
+} from 'lucide-react';
 
-const WorkOrdersPanel = ({ projectId, onCreate, onEdit }) => {
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
+
+import { useWorkOrders }
+  from '../hooks/useWorkOrders';
+
+import WorkOrderCard
+  from './WorkOrderCard';
+
+import './WorkOrdersPanel.css';
+
+const WorkOrdersPanel = ({
+  projectId,
+  onCreate,
+  onEdit
+}) => {
 
   const {
     data: workOrders = [],
@@ -9,39 +27,167 @@ const WorkOrdersPanel = ({ projectId, onCreate, onEdit }) => {
     error
   } = useWorkOrders(projectId);
 
-  if (loading) return <p>Cargando Work Orders...</p>;
-  if (error) return <p>Error cargando Work Orders</p>;
+  // =====================================================
+  // LOADING
+  // =====================================================
+
+  if (loading) {
+
+    return (
+
+      <Card className="workorders-panel-state">
+
+        <div className="workorders-loading">
+
+          Cargando Work Orders...
+
+        </div>
+
+      </Card>
+
+    );
+
+  }
+
+  // =====================================================
+  // ERROR
+  // =====================================================
+
+  if (error) {
+
+    return (
+
+      <Card className="workorders-panel-state error">
+
+        <div className="workorders-error">
+
+          <AlertCircle size={18} />
+
+          <span>
+            Error cargando Work Orders
+          </span>
+
+        </div>
+
+      </Card>
+
+    );
+
+  }
+
+  // =====================================================
+  // RENDER
+  // =====================================================
 
   return (
-    <div className="section">
 
-      <div className="section-header">
-        <h3>Work Orders</h3>
+    <div className="workorders-panel">
 
-        <button
-          className="btn-primary"
+      {/* ============================================= */}
+      {/* HEADER */}
+      {/* ============================================= */}
+
+      <div className="workorders-panel-header">
+
+        <div className="workorders-panel-heading">
+
+          <div className="workorders-panel-icon">
+
+            <BriefcaseBusiness size={20} />
+
+          </div>
+
+          <div>
+
+            <h2>
+              Work Orders
+            </h2>
+
+            <p>
+              Gestión operativa y
+              económica del proyecto
+            </p>
+
+          </div>
+
+        </div>
+
+        <Button
           onClick={() => onCreate?.()}
+          className="create-wo-btn"
         >
-          + Nueva Work Order
-        </button>
+
+          <Plus size={16} />
+
+          Nueva Work Order
+
+        </Button>
+
       </div>
+
+      {/* ============================================= */}
+      {/* EMPTY STATE */}
+      {/* ============================================= */}
 
       {workOrders.length === 0 && (
-        <p className="empty">No hay Work Orders</p>
+
+        <Card className="workorders-empty-state">
+
+          <div className="workorders-empty-icon">
+
+            <BriefcaseBusiness size={28} />
+
+          </div>
+
+          <h3>
+            No hay Work Orders
+          </h3>
+
+          <p>
+            Este proyecto todavía no
+            tiene Work Orders asociadas.
+          </p>
+
+          <Button
+            onClick={() => onCreate?.()}
+          >
+
+            <Plus size={16} />
+
+            Crear primera Work Order
+
+          </Button>
+
+        </Card>
+
       )}
 
-      <div className="wo-list">
-        {workOrders.map(wo => (
-          <WorkOrderCard
-            key={wo.id}
-            workOrder={wo}
-            onEdit={onEdit}
-          />
-        ))}
-      </div>
+      {/* ============================================= */}
+      {/* LIST */}
+      {/* ============================================= */}
+
+      {workOrders.length > 0 && (
+
+        <div className="workorders-list">
+
+          {workOrders.map((wo) => (
+
+            <WorkOrderCard
+              key={wo.id}
+              workOrder={wo}
+              onEdit={onEdit}
+            />
+
+          ))}
+
+        </div>
+
+      )}
 
     </div>
+
   );
+
 };
 
 export default WorkOrdersPanel;

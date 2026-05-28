@@ -1,0 +1,122 @@
+/* src/components/projects/ProjectKPIs.css */
+
+.project-kpis-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+/* ======================================================
+   CARD
+====================================================== */
+
+.project-kpi-card {
+
+  display: flex;
+
+  flex-direction: row;
+
+  align-items: center;
+
+  justify-content: flex-start;
+
+  gap: 20px;
+
+  padding: 24px;
+
+  min-height: 120px;
+
+  border-radius: 18px;
+
+  border: 1px solid #e5e7eb;
+
+  background: #ffffff;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.project-kpi-card:hover {
+  transform: translateY(-2px);
+  border-color: #dbe3f0;
+  box-shadow:
+    0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+/* ======================================================
+   ICON
+====================================================== */
+
+.project-kpi-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.project-kpi-icon.blue {
+  background: rgba(37, 99, 235, 0.12);
+  color: #2563eb;
+}
+
+.project-kpi-icon.purple {
+  background: rgba(124, 58, 237, 0.12);
+  color: #7c3aed;
+}
+
+.project-kpi-icon.green {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+/* ======================================================
+   CONTENT
+====================================================== */
+
+.project-kpi-content {
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: flex-start;
+
+  gap: 4px;
+
+  flex: 1;
+}
+
+.project-kpi-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  letter-spacing: 0.02em;
+}
+
+.project-kpi-value {
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 1024px) {
+
+  .project-kpis-grid {
+    grid-template-columns: 1fr;
+  }
+
+}

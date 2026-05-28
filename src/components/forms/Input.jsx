@@ -1,4 +1,4 @@
-import './input.css';
+import './form.css';
 
 const Input = ({
   label,

@@ -1,25 +1,49 @@
-import Modal from './Modal';
-import WorkOrderForm from './WorkOrderForm';
+import { Modal } from '@/components/';
 
-const WorkOrderModal = ({ open, onClose, workOrder, projectId, onSaved }) => {
+import Stack from '@/layout/primitives/Stack';
 
-  if (!open) return null;
+import WorkOrderForm
+  from './WorkOrderForm';
+
+import HitosTableEditable
+  from './HitosTableEditable';
+
+const WorkOrderModal = ({
+  open,
+  onClose,
+  workOrder,
+  onSaved
+}) => {
 
   return (
-    <Modal open={open} onClose={onClose}>
 
-      <h2 style={{ marginBottom: 16 }}>
-        {workOrder ? 'Editar Work Order' : 'Nueva Work Order'}
-      </h2>
+    <Modal
+      open={open}
+      onClose={onClose}
+      title={
+        workOrder?.id
+          ? 'Editar Work Order'
+          : 'Nueva Work Order'
+      }
+      size="xl"
+    >
 
-      <WorkOrderForm
-        initialData={workOrder}
-        projectId={projectId}
-        onSaved={onSaved}
-      />
+      <Stack gap="xl">
+
+        <WorkOrderForm
+          initialData={workOrder}
+        />
+
+        <HitosTableEditable
+          workOrderId={workOrder?.id}
+        />
+
+      </Stack>
 
     </Modal>
+
   );
+
 };
 
 export default WorkOrderModal;

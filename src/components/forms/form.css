@@ -31,3 +31,304 @@
   color: var(--color-danger);
   font-size: 12px;
 }
+
+.form-field-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+  width: 100%;
+}
+
+.form-field-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.375rem;
+}
+
+.required-asterisk {
+  color: #ef4444;
+}
+
+.form-control {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.375rem;
+  outline: none;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.form-control.is-invalid {
+  border-color: #ef4444;
+}
+
+.form-field-error-message {
+  font-size: 0.75rem;
+  color: #ef4444;
+  margin-top: 0.25rem;
+}
+
+.custom-select-input {
+  width: 100%;
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #1e293b;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.375rem;
+  outline: none;
+  appearance: none; /* Elimina el diseño por defecto del sistema operativo */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3csvg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1.25rem 1.25rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.custom-select-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.custom-select-input:disabled {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.custom-select-input.has-error {
+  border-color: #ef4444;
+}
+
+.custom-select-input.has-error:focus {
+  box-shadow: 0 0 0 1px #ef4444;
+}
+
+.custom-date-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #1e293b;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.375rem;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.custom-date-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.custom-date-input:disabled {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.custom-date-input.has-error {
+  border-color: #ef4444;
+}
+
+.custom-date-input.has-error:focus {
+  box-shadow: 0 0 0 1px #ef4444;
+}
+
+/* Estiliza el botón del calendario nativo en navegadores basados en WebKit (Chrome, Edge, Safari) */
+.custom-date-input::-webkit-calendar-picker-indicator {
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0.2rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.15s ease;
+}
+
+.custom-date-input::-webkit-calendar-picker-indicator:hover {
+  background-color: #f1f5f9;
+}
+
+.form-section-container {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e2e8f0; /* Línea divisoria suave */
+}
+
+/* Eliminamos la línea divisoria en la última sección del formulario */
+.form-section-container:last-of-type {
+  margin-bottom: 1rem;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.form-section-header {
+  margin-bottom: 1.25rem;
+}
+
+.form-section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 0.25rem 0;
+}
+
+.form-section-description {
+  font-size: 0.815rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* ⚡ Maquetación inteligente para los inputs internos */
+.form-section-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.25rem 1.25rem; /* Separación entre filas y columnas */
+}
+
+/* 💻 Pantallas medianas y grandes: los campos se distribuyen automáticamente en 2 columnas */
+@media (min-width: 640px) {
+  .form-section-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Truco de utilidad: si quieres que un campo ocupe todo el ancho (ej: Descripción larga), 
+     puedes meterle una clase directa al FormField con 'grid-column: span 2' */
+  .form-field-full-width {
+    grid-column: span 2;
+  }
+}
+
+.currency-input-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.375rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* El input se estira pero deja espacio a la derecha para el símbolo */
+.currency-input-field {
+  width: 100%;
+  padding: 0.5rem 2.25rem 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #1e293b;
+  border: none;
+  outline: none;
+  background: transparent;
+  text-align: right; /* 📈 Estilo contable: números alineados a la derecha */
+  font-family: inherit;
+}
+
+/* Oculta las flechas arriba/abajo nativas de los inputs numéricos para un look más limpio */
+.currency-input-field::-webkit-outer-spin-button,
+.currency-input-field::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.currency-input-field[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* El símbolo fijado estéticamente dentro del borde */
+.currency-input-symbol {
+  position: absolute;
+  right: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748b;
+  pointer-events: none; /* Evita que interfiera con los clics en el input */
+  user-select: none;
+}
+
+/* Estados de foco, error y deshabilitado heredados del contenedor */
+.currency-input-wrapper:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.currency-input-wrapper.has-error {
+  border-color: #ef4444;
+}
+
+.currency-input-wrapper.has-error:focus-within {
+  box-shadow: 0 0 0 1px #ef4444;
+}
+
+.currency-input-wrapper.is-disabled {
+  background-color: #f1f5f9;
+  cursor: not-allowed;
+}
+
+.currency-input-wrapper.is-disabled .currency-input-field {
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.autocomplete-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.autocomplete-results-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50; /* Hace que flote por encima de todo */
+  width: 100%;
+  max-height: 200px;
+  margin: 0.25rem 0 0 0;
+  padding: 0;
+  overflow-y: auto;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.375rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  list-style: none;
+}
+
+.autocomplete-item {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: #1e293b;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.autocomplete-item:hover {
+  background-color: #f1f5f9;
+}
+
+.autocomplete-item.selected {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  font-weight: 500;
+}
+
+.autocomplete-no-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: #64748b;
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.375rem;
+}

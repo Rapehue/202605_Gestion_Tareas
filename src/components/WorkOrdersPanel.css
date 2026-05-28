@@ -1,0 +1,164 @@
+/* ======================================================
+   PANEL
+====================================================== */
+
+.workorders-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-top: 24px;
+}
+
+/* ======================================================
+   HEADER
+====================================================== */
+
+.workorders-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* ======================================================
+   HEADING
+====================================================== */
+
+.workorders-panel-heading {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.workorders-panel-heading h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+}
+
+.workorders-panel-heading p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+/* ======================================================
+   ICON
+====================================================== */
+
+.workorders-panel-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background:
+        rgba(59, 130, 246, 0.12);
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* ======================================================
+   BUTTON
+====================================================== */
+
+.create-wo-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ======================================================
+   LIST
+====================================================== */
+
+.workorders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ======================================================
+   EMPTY STATE
+====================================================== */
+
+.workorders-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 48px 32px;
+    text-align: center;
+    border-radius: 22px;
+    border: 1px dashed #dbe3f0;
+    background:
+        linear-gradient(180deg,
+            #ffffff 0%,
+            #f8fafc 100%);
+}
+
+.workorders-empty-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    background:
+        rgba(59, 130, 246, 0.10);
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.workorders-empty-state h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.workorders-empty-state p {
+    max-width: 420px;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #64748b;
+}
+
+/* ======================================================
+   LOADING / ERROR
+====================================================== */
+
+.workorders-panel-state {
+    padding: 24px;
+}
+
+.workorders-loading {
+    font-size: 14px;
+    color: #64748b;
+}
+
+.workorders-error {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #dc2626;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 768px) {
+
+    .workorders-panel-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+}
