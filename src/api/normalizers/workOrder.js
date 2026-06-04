@@ -35,5 +35,6 @@ export const serializeWorkOrder = (wo = {}) => ({
   fecha_fin: wo.fechaFin,
   jornadas: wo.jornadas,
   precio: wo.precio,
-  estado: wo.estado
+  estado: wo.estado,
+  objetivo: wo.objetivo
 });

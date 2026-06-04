@@ -61,7 +61,8 @@ const EMPTY_HITO = {
 const HitosTableEditable = ({
     workOrderId,
     workOrderImporte = 0,
-    onUpdated
+    onUpdated,
+    onChangeHitos // 👈 NUEVA PROP para avisar al formulario padre
 }) => {
 
     const [hitos, setHitos] = useState([]);
@@ -123,6 +124,7 @@ const HitosTableEditable = ({
     const porcentajeExcedido = totalPorcentaje > 100;
     const importeExcedido = totalImporte > Number(workOrderImporte || 0);
 
+    // console.log ('Importe Excedido: ' + importeExcedido + '. totalImporte: ' + totalImporte + '. workOrderImporte :' + workOrderImporte)
     // ======================================================
     // CHANGE (CORREGIDO: Detección inteligente de eventos y valores)
     // ======================================================
@@ -131,15 +133,16 @@ const HitosTableEditable = ({
     // CHANGE (CORRECCIÓN DEFINITIVA DE VARIABLES INTERNAS)
     // ======================================================
 
+    // ======================================================
+    // CHANGE (CORREGIDO: Sincroniza con el componente Padre)
+    // ======================================================
     const handleChange = (index, field, eventOrValue) => {
         const updated = [...hitos];
 
-        // 1. Normalización del campo a snake_case
         let targetField = field;
         if (field === 'fechaSolicitudVb') targetField = 'fecha_solicitud_vb';
         if (field === 'fechaConcesionVb') targetField = 'fecha_concesion_vb';
 
-        // 2. Extraer el valor real de forma segura
         let finalValue;
         if (eventOrValue && typeof eventOrValue === 'object' && 'target' in eventOrValue) {
             finalValue = eventOrValue.target.value;
@@ -147,36 +150,22 @@ const HitosTableEditable = ({
             finalValue = eventOrValue;
         }
 
-        // 3. Control estricto anti-corrupción para MySQL
         if (finalValue === 'Invalid date' || finalValue === undefined || finalValue === null) {
             finalValue = '';
         }
 
-        // 4. Asignamos el valor limpio al hito
         updated[index] = {
             ...updated[index],
             [targetField]: finalValue
         };
 
-        // ====================================================
-        // AUTO DATES (CORREGIDO: Usamos finalValue en los IFs)
-        // ====================================================
         if (targetField === 'estado') {
-            const todayStr = new Date().toISOString().split('T')[0]; // Genera '2026-05-28'
-
-            if (finalValue === 'SOLICITADO_VB') {
-                updated[index].fecha_solicitud_vb = todayStr;
-            }
-
+            const todayStr = new Date().toISOString().split('T')[0];
+            if (finalValue === 'SOLICITADO_VB') updated[index].fecha_solicitud_vb = todayStr;
             if (finalValue === 'CONCEDIDO_VB') {
-                // Si pasa a concedido directamente, rellenamos también la solicitud si estaba vacía
-                if (!updated[index].fecha_solicitud_vb) {
-                    updated[index].fecha_solicitud_vb = todayStr;
-                }
+                if (!updated[index].fecha_solicitud_vb) updated[index].fecha_solicitud_vb = todayStr;
                 updated[index].fecha_concesion_vb = todayStr;
             }
-
-            // Si vuelven a poner el hito "En Curso", limpiamos las fechas automáticamente
             if (finalValue === 'EN_CURSO') {
                 updated[index].fecha_solicitud_vb = '';
                 updated[index].fecha_concesion_vb = '';
@@ -184,6 +173,8 @@ const HitosTableEditable = ({
         }
 
         setHitos(updated);
+        // 🌟 Avisamos al padre de los hitos actualizados en tiempo real
+        onChangeHitos?.(updated);
     };
 
     // ======================================================
@@ -191,10 +182,9 @@ const HitosTableEditable = ({
     // ======================================================
 
     const handleAdd = () => {
-        setHitos(prev => [
-            ...prev,
-            { ...EMPTY_HITO }
-        ]);
+        const updated = [...hitos, { ...EMPTY_HITO }];
+        setHitos(updated);
+        onChangeHitos?.(updated); // 🌟 Avisamos al padre
     };
 
     // ======================================================
@@ -391,15 +381,13 @@ const HitosTableEditable = ({
                 </div>
 
                 {/* ACCIONES PIE */}
-                <div className="hitos-actions">
-                    <Button
-                        onClick={handleSave}
-                        // disabled={saving || porcentajeExcedido || importeExcedido}
-                        className="btn-save-hitos"
-                    >
-                        {saving ? 'Guardando cambios...' : 'Guardar Hitos Financieros'}
-                    </Button>
-                </div>
+                {workOrderId && (
+                    <div className="hitos-actions">
+                        <Button onClick={handleSave} className="btn-save-hitos">
+                            {saving ? 'Guardando cambios...' : 'Guardar Hitos Financieros'}
+                        </Button>
+                    </div>
+                )}
 
             </Stack>
         </Card>

@@ -1,0 +1,43 @@
+.executive-kpis {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(240px,1fr)
+    );
+
+  gap: 20px;
+
+}
+
+.exec-kpi-card {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  padding: 24px;
+
+}
+
+.exec-kpi-card span {
+
+  display: block;
+
+  font-size: 12px;
+
+  color: var(--text-secondary);
+
+}
+
+.exec-kpi-card strong {
+
+  font-size: 28px;
+
+  font-weight: 700;
+
+}

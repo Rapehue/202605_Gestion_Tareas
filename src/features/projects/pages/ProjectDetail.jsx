@@ -118,6 +118,13 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
 
         </button>
 
+        <button
+          className={activeTab === 'dashboard' ? 'active' : ''}
+          onClick={() => setActiveTab('dashboard')}
+        >
+          Dashboard
+        </button>
+
       </div>
 
       {/* CONTENIDO */}
@@ -140,6 +147,14 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
             }}
           />
         )}
+
+        {/* {
+          activeTab === 'dashboard' && (
+            <ProjectDashboardPage
+              projectId={project.id}
+            />
+          )
+        } */}
       </div>
 
       {/* MODAL DE WORK ORDERS */}

@@ -1,0 +1,31 @@
+.risk-card {
+  margin-bottom: 20px;
+}
+
+.risk-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.risk-header strong {
+  display: block;
+  font-size: 18px;
+}
+
+.risk-score {
+  margin-top: 16px;
+  font-weight: 600;
+}
+
+.risk-bajo {
+  border-left: 5px solid #10b981;
+}
+
+.risk-medio {
+  border-left: 5px solid #f59e0b;
+}
+
+.risk-alto {
+  border-left: 5px solid #ef4444;
+}

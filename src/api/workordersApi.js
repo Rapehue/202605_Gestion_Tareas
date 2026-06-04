@@ -3,7 +3,7 @@ import {
   normalizeWorkOrders,
   normalizeWorkOrder,
   // 💡 Imaginemos que añadimos esto para preparar los datos antes de viajar al servidor
-  serializeWorkOrder 
+  serializeWorkOrder
 } from './normalizers/workOrder';
 
 export const getWorkOrdersByProject = async (projectId) => {
@@ -13,17 +13,34 @@ export const getWorkOrdersByProject = async (projectId) => {
 };
 
 export const createWorkOrder = async (payload) => {
+  console.log(payload)
   // 🛡️ Opcional pero recomendado: transformamos el estado del front 
   // al formato crudo que espera la base de datos (ej: fechas a ISOString, IDs limpios)
   const formattedPayload = serializeWorkOrder ? serializeWorkOrder(payload) : payload;
-  
+  console.log(formattedPayload)
   const data = await api.post('/workorders', formattedPayload);
   return normalizeWorkOrder(data);
 };
 
 export const updateWorkOrder = async (id, payload) => {
-  const formattedPayload = serializeWorkOrder ? serializeWorkOrder(payload) : payload;
-  
-  const data = await api.put(`/workorders/${id}`, formattedPayload);
+
+  console.log('PAYLOAD ORIGINAL', payload);
+
+  const formattedPayload =
+    serializeWorkOrder
+      ? serializeWorkOrder(payload)
+      : payload;
+
+  console.log(
+    'PAYLOAD SERIALIZADO',
+    formattedPayload
+  );
+
+  const data =
+    await api.put(
+      `/workorders/${id}`,
+      formattedPayload
+    );
+
   return normalizeWorkOrder(data);
 };

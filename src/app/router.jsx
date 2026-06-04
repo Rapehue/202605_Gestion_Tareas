@@ -14,6 +14,8 @@ import {
   ProjectDetail
 } from '@/features';
 
+import DashboardPage from '@/features/dashboard/DashboardPage';
+
 const Router = () => {
 
   return (
@@ -25,7 +27,7 @@ const Router = () => {
 
           <Route
             path="/"
-            element={<Dashboard />}
+            element={<DashboardPage />}
           />
 
           <Route
