@@ -1,69 +1,39 @@
 import Card from '@/components/ui/Card';
 
-import {
-  AlertTriangle,
-  Info
-} from 'lucide-react';
-
 import './ProjectAlerts.css';
 
 const ProjectAlerts = ({
   alerts = []
 }) => {
 
-  if (!alerts.length) {
-
-    return (
-      <Card>
-
-        No existen alertas activas
-
-      </Card>
-    );
-
-  }
-
   return (
 
     <Card>
 
       <h3>
-        Alertas Operativas
+        Alertas
       </h3>
 
-      <div className="alerts-list">
+      {alerts.length === 0 && (
+        <p>
+          Sin alertas activas
+        </p>
+      )}
 
-        {alerts.map(
-          (alert, index) => (
+      {alerts.map(
+        (alert, idx) => (
 
-            <div
-              key={index}
-              className={`alert-item alert-${alert.type}`}
-            >
+          <div
+            key={idx}
+            className={`alert-row severity-${alert.severity.toLowerCase()}`}
+          >
 
-              {alert.type === 'info'
-                ? <Info size={18} />
-                : <AlertTriangle size={18} />
-              }
+            {alert.message}
 
-              <div>
+          </div>
 
-                <strong>
-                  {alert.title}
-                </strong>
-
-                <span>
-                  {alert.description}
-                </span>
-
-              </div>
-
-            </div>
-
-          )
-        )}
-
-      </div>
+        )
+      )}
 
     </Card>
 

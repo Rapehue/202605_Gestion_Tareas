@@ -1,25 +1,11 @@
 .risk-card {
-  margin-bottom: 20px;
-}
-
-.risk-header {
   display: flex;
-  gap: 12px;
   align-items: center;
-}
-
-.risk-header strong {
-  display: block;
-  font-size: 18px;
-}
-
-.risk-score {
-  margin-top: 16px;
-  font-weight: 600;
+  gap: 14px;
 }
 
 .risk-bajo {
-  border-left: 5px solid #10b981;
+  border-left: 5px solid #22c55e;
 }
 
 .risk-medio {

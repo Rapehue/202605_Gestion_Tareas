@@ -1,56 +1,30 @@
 import Card from '@/components/ui/Card';
-
-import {
-  ShieldAlert,
-  ShieldCheck,
-  ShieldQuestion
-} from 'lucide-react';
+import { ShieldAlert } from 'lucide-react';
 
 import './ProjectRiskCard.css';
 
-const ProjectRiskCard = ({
-  risk
-}) => {
+const ProjectRiskCard = ({ risk }) => {
 
-  if (!risk) return null;
-
-  const icon = {
-
-    BAJO: <ShieldCheck size={24} />,
-    MEDIO: <ShieldQuestion size={24} />,
-    ALTO: <ShieldAlert size={24} />
-
-  };
+  const level =
+    risk?.level || 'BAJO';
 
   return (
 
     <Card
-      className={`risk-card risk-${risk.level.toLowerCase()}`}
+      className={`risk-card risk-${level.toLowerCase()}`}
     >
 
-      <div className="risk-header">
+      <ShieldAlert size={24} />
 
-        {icon[risk.level]}
+      <div>
 
-        <div>
+        <span>
+          Riesgo Proyecto
+        </span>
 
-          <span>
-            Riesgo Proyecto
-          </span>
-
-          <strong>
-            {risk.level}
-          </strong>
-
-        </div>
-
-      </div>
-
-      <div className="risk-score">
-
-        Score:
-        {' '}
-        {risk.score}/100
+        <strong>
+          {level}
+        </strong>
 
       </div>
 

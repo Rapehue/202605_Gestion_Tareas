@@ -1,0 +1,40 @@
+.mywork-kpis {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 16px;
+
+  margin-bottom: 24px;
+
+}
+
+.mywork-kpis .card {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 20px;
+
+}
+
+.mywork-kpis strong {
+
+  font-size: 28px;
+
+}
+
+.mywork-kpis span {
+
+  font-size: 13px;
+
+  color: #64748b;
+
+}

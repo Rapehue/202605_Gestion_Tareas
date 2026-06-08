@@ -1,5 +1,7 @@
 import { useQuery } from './useQuery';
-import { getDashboard, getDashboardSummary } from '../api/dashboardApi';
+import { getDashboard
+  , getDashboardSummary 
+} from '../api/dashboardApi';
 
 export const useDashboard = (projectId) => {
 

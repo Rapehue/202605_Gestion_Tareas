@@ -4,12 +4,12 @@ import {
 
 import ProjectHealthIndicator from './ProjectHealthIndicator';
 import ProjectBudgetWidget from './ProjectBudgetWidget';
-import ProjectProgressWidget from './ProjectProgressWidget';
+// import ProjectProgressWidget from './ProjectProgressWidget';
 import ProjectBurnupChart from './ProjectBurnupChart';
 import ProjectTimeline from './ProjectTimeline';
 import ProjectMilestoneSummary from './ProjectMilestoneSummary';
 
-import './ProjectDashboardPage.css';
+// import './ProjectDashboardPage.css';
 
 const ProjectDashboardPage = ({
   projectId
@@ -40,9 +40,9 @@ const ProjectDashboardPage = ({
         data={data}
       />
 
-      <ProjectProgressWidget
+      {/* <ProjectProgressWidget
         data={data}
-      />
+      /> */}
 
       <ProjectBurnupChart
         data={data}

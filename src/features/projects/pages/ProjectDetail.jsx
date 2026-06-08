@@ -9,10 +9,24 @@ import {
   WorkOrderModal
 } from '@/components';
 import '@/styles/projectDetail.css';
+import ProjectDashboardPage from '@/features/dashboard/ProjectDashboardPage';
+import ProjectRiskCard from '@/features/dashboard/ProjectRiskCard';
+import ProjectProgressCard from '@/features/dashboard/ProjectProgressCard';
+import ProjectAlerts from '@/features/dashboard/ProjectAlerts';
+
+import { useProjectDashboard } from '@/hooks/useProjectDashboard';
+import ProjectExecutiveHeader from '@/features/dashboard/ProjectExecutiveHeader';
+import ProjectTimeline from '@/features/dashboard/ProjectTimeline';
+import ProjectRoadmap from '@/features/dashboard/ProjectRoadmap';
 
 const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop directo
   const { id } = useParams(); // 👈 3. Extraemos el ":id" real de la URL del navegador
   const projectId = id;
+
+  const {
+    data: dashboard,
+    loading: dashboardLoading
+  } = useProjectDashboard(id);
 
   const [project, setProject] = useState(null);
   const [activeTab, setActiveTab] = useState('general');
@@ -54,6 +68,8 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
 
   if (!project) return <div className="loading-state">Cargando detalles del proyecto...</div>;
 
+  console.log('DASHBOARD', dashboard);
+
   return (
     <div className="project-detail">
 
@@ -66,9 +82,38 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
         </span> */}
       </div>
 
+      <ProjectExecutiveHeader
+        dashboard={dashboard}
+      />
+
+      {dashboard && (
+        <>
+          <div className="project-health-grid">
+
+            <ProjectRiskCard
+              risk={dashboard.risk}
+            />
+
+            <ProjectProgressCard
+              progress={dashboard.progress}
+            />
+
+          </div>
+
+          <ProjectAlerts
+            alerts={dashboard.alerts}
+          />
+
+        </>
+      )}
+
       {/* KPIs */}
       {/* Pasamos el mismo trigger para que los KPIs se actualicen en sincronía */}
       <ProjectKPIs projectId={projectId} refresh={triggerReload} />
+
+      <ProjectTimeline
+        project={project}
+      />
 
       {/* TABS */}
       <div
@@ -119,13 +164,23 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
         </button>
 
         <button
-          className={activeTab === 'dashboard' ? 'active' : ''}
+          className={`
+      project-tab
+      ${activeTab === 'wo'
+              ? 'active'
+              : ''
+            }
+    `}
           onClick={() => setActiveTab('dashboard')}
         >
           Dashboard
         </button>
 
       </div>
+
+      <ProjectRoadmap
+        projectId={project.id}
+      />
 
       {/* CONTENIDO */}
       <div className="tab-content">
@@ -148,13 +203,13 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
           />
         )}
 
-        {/* {
+        {
           activeTab === 'dashboard' && (
             <ProjectDashboardPage
               projectId={project.id}
             />
           )
-        } */}
+        }
       </div>
 
       {/* MODAL DE WORK ORDERS */}

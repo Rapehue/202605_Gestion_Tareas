@@ -1,0 +1,17 @@
+.alert-row {
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+}
+
+.severity-high {
+  background: #fee2e2;
+}
+
+.severity-medium {
+  background: #fef3c7;
+}
+
+.severity-low {
+  background: #dcfce7;
+}

@@ -14,6 +14,7 @@ import WorkOrderCard
   from './WorkOrderCard';
 
 import './WorkOrdersPanel.css';
+import { PERMISSIONS } from '@/security/permissions';
 
 const WorkOrdersPanel = ({
   projectId,
@@ -112,17 +113,24 @@ const WorkOrdersPanel = ({
 
         </div>
 
-        <Button
-          onClick={() => onCreate?.()}
-          className="create-wo-btn"
-        >
+        {/* {
+          can(
+            PERMISSIONS.WO_CREATE
+          )
+          &&
+          ( */}
+            <Button
+              onClick={() => onCreate?.()}
+              className="create-wo-btn"
+            >
 
-          <Plus size={16} />
+              <Plus size={16} />
 
-          Nueva Work Order
+              Nueva Work Order
 
-        </Button>
-
+            </Button>
+          {/* )
+        } */}
       </div>
 
       {/* ============================================= */}

@@ -15,3 +15,35 @@ export const getDashboardSummary = async () => {
 
   return data;
 };
+
+export const getProjectDashboard = async (projectId) => {
+
+  if (!projectId) {
+    throw new Error('projectId es obligatorio');
+  }
+
+  const data = await api.get(
+    `/dashboard/${projectId}`
+  );
+
+  return data;
+
+};
+
+export const getProjectRoadmap =
+  async (projectId) => {
+
+    return api.get(
+      `/dashboard/project/${projectId}/roadmap`
+    );
+
+  };
+
+  export const getPortfolio =
+  async () => {
+
+    return api.get(
+      '/dashboard/portfolio'
+    );
+
+  };
