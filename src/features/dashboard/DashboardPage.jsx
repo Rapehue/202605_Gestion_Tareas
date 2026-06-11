@@ -14,10 +14,6 @@ const DashboardPage = () => {
         error
     } = useDashboardSummary();
 
-    console.log('DASHBOARD SUMMARY', summary);
-    console.log('DASHBOARD LOADING', loading);
-    console.log('DASHBOARD ERROR', error);
-
     if (loading) {
 
         return <p>Cargando dashboard...</p>;
