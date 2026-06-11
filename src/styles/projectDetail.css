@@ -143,3 +143,29 @@
   transform: scale(0.98);
 
 }
+
+
+.project-alerts-container {
+  margin: 24px 0 32px;
+  animation: fadeDown .25s ease;
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}

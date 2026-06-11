@@ -1,0 +1,71 @@
+.portfolio-summary {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, 1fr);
+
+  gap: 16px;
+
+  margin-bottom: 20px;
+
+}
+
+.portfolio-kpi-card {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 18px;
+
+}
+
+.portfolio-kpi-card span {
+
+  display: block;
+
+  font-size: 0.8rem;
+
+  color: #64748b;
+
+}
+
+.portfolio-kpi-card strong {
+
+  display: block;
+
+  font-size: 1.4rem;
+
+  margin-top: 4px;
+
+}
+
+.portfolio-risk-card.high-risk {
+
+  border-left: 4px solid #dc2626;
+
+}
+
+@media (max-width: 1200px) {
+
+  .portfolio-summary {
+
+    grid-template-columns:
+      repeat(2, 1fr);
+
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .portfolio-summary {
+
+    grid-template-columns: 1fr;
+
+  }
+
+}

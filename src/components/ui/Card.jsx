@@ -3,7 +3,9 @@ import './card.css';
 const Card = ({
   children,
   className = '',
-  horizontal = false
+  horizontal = false,
+  clickable = false,
+  ...props
 }) => {
 
   return (
@@ -12,8 +14,10 @@ const Card = ({
       className={`
         card
         ${horizontal ? 'horizontal' : ''}
+        ${clickable ? 'card-clickable' : ''}
         ${className}
       `}
+      {...props}
     >
 
       {children}

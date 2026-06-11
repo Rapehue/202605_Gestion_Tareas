@@ -10,7 +10,8 @@ import {
 import './ProjectExecutiveHeader.css';
 
 const ProjectExecutiveHeader = ({
-  dashboard
+  dashboard,
+  onAlertsClick
 }) => {
 
   const risk =
@@ -76,7 +77,13 @@ const ProjectExecutiveHeader = ({
 
       </Card>
 
-      <Card className="executive-project-card">
+      <Card
+        className="executive-card executive-card-clickable"
+        onClick={() => {
+          // console.log('CLICK ALERTAS');
+          onAlertsClick?.();
+        }}
+      >
 
         <Bell size={22} />
 

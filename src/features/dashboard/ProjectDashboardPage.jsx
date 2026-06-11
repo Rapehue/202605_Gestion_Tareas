@@ -8,6 +8,7 @@ import ProjectBudgetWidget from './ProjectBudgetWidget';
 import ProjectBurnupChart from './ProjectBurnupChart';
 import ProjectTimeline from './ProjectTimeline';
 import ProjectMilestoneSummary from './ProjectMilestoneSummary';
+import { useEffect } from 'react';
 
 // import './ProjectDashboardPage.css';
 
@@ -21,6 +22,10 @@ const ProjectDashboardPage = ({
   } = useProjectDashboard(
     projectId
   );
+
+  useEffect(() => {
+    console.log('DASHBOARD MOUNT');
+  }, []);
 
   if (loading) {
     return <p>Cargando...</p>;

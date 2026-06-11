@@ -22,6 +22,8 @@ import {
 import { useState } from 'react';
 import { useHitos } from '../hooks/useHitos';
 
+import { formatDate } from '../utils/date'
+
 import './WorkOrderCard.css';
 
 const WorkOrderCard = ({
@@ -30,6 +32,7 @@ const WorkOrderCard = ({
 }) => {
 
   const [open, setOpen] = useState(false);
+  const [editingHito, setEditingHito] = useState(null);
 
   const {
     data: hitos = [],
@@ -164,6 +167,53 @@ const WorkOrderCard = ({
     );
 
   };
+
+  const concedidoImporte =
+    safeHitos
+      .filter(
+        h => h.estado === 'CONCEDIDO_VB'
+      )
+      .reduce(
+        (acc, h) =>
+          acc + Number(h.importe || 0),
+        0
+      );
+
+  const pendienteImporte =
+    totalImporte - concedidoImporte;
+
+  const avanceFacturacion =
+    totalImporte > 0
+      ? Math.round(
+        (concedidoImporte / totalImporte) * 100
+      )
+      : 0;
+
+  const hitosEnCurso =
+    safeHitos.filter(
+      h => h.estado === 'EN_CURSO'
+    ).length;
+
+  const riesgo =
+    avanceFacturacion >= 90
+      ? 'BAJO'
+      : avanceFacturacion >= 60
+        ? 'MEDIO'
+        : 'ALTO';
+
+  const totalHitos =
+    safeHitos.length;
+
+
+  const hitosSolicitados =
+    safeHitos.filter(
+      h => h.estado === 'SOLICITADO_VB'
+    ).length;
+
+  const proximoHito =
+    safeHitos.find(
+      h => h.estado !== 'CONCEDIDO_VB'
+    );
 
   return (
 
@@ -421,15 +471,12 @@ const WorkOrderCard = ({
               </h4>
 
               <p>
-                Seguimiento financiero
-                y validaciones
+                Seguimiento financiero y validaciones
               </p>
 
             </div>
 
-            <Button
-              onClick={handleCreateHito}
-            >
+            <Button onClick={handleCreateHito}>
 
               <Plus size={15} />
 
@@ -440,128 +487,350 @@ const WorkOrderCard = ({
           </div>
 
           {loading && (
+
             <div className="wo-loading">
               Cargando hitos...
             </div>
+
           )}
 
           {!loading && (
 
-            <div className="wo-table-wrapper">
+            <>
 
-              <table className="wo-hitos-table">
+              {/* RESUMEN */}
 
-                <thead>
+              <div className="wo-hitos-summary">
 
-                  <tr>
+                <div className="wo-summary-card">
 
-                    <th>Código</th>
-                    <th>Descripción</th>
-                    <th>%</th>
-                    <th>Importe</th>
-                    <th>Estado</th>
+                  <span>
+                    Pendiente
+                  </span>
 
-                  </tr>
+                  <strong>
 
-                </thead>
+                    {pendienteImporte.toLocaleString('es-ES')} €
 
-                <tbody>
+                  </strong>
 
-                  {safeHitos.map(h => (
+                </div>
 
-                    <tr key={h.id}>
+                <div className="wo-summary-card">
 
-                      <td>
-                        <Badge variant="neutral">
-                          {h.codigo}
-                        </Badge>
-                      </td>
+                  <span>
+                    En curso
+                  </span>
 
-                      <td>
+                  <strong>
+                    {hitosEnCurso}
+                  </strong>
 
-                        <input
-                          value={h.descripcion}
-                          onChange={(e) =>
-                            updateField(
-                              h.id,
-                              'descripcion',
-                              e.target.value
-                            )
-                          }
-                        />
+                </div>
 
-                      </td>
+                <div className="wo-summary-card">
 
-                      <td>
+                  <span>
+                    Solicitado. VB
+                  </span>
 
-                        <input
-                          type="number"
-                          value={h.porcentaje}
-                          onChange={(e) =>
-                            updateField(
-                              h.id,
-                              'porcentaje',
-                              e.target.value
-                            )
-                          }
-                        />
+                  <strong>
+                    {hitosSolicitados}
+                  </strong>
 
-                      </td>
+                </div>
 
-                      <td>
+                <div
+                  className={`
+      wo-summary-card
+      risk-${riesgo.toLowerCase()}
+    `}
+                >
 
-                        <input
-                          type="number"
-                          value={h.importe}
-                          onChange={(e) =>
-                            updateField(
-                              h.id,
-                              'importe',
-                              e.target.value
-                            )
-                          }
-                        />
+                  <span>
+                    Riesgo
+                  </span>
 
-                      </td>
+                  <strong>
+                    {riesgo}
+                  </strong>
 
-                      <td>
+                </div>
 
-                        <select
-                          value={h.estado}
-                          onChange={(e) =>
-                            updateField(
-                              h.id,
-                              'estado',
-                              e.target.value
+              </div>
+
+              {/* GRID DE HITOS */}
+
+              <div className="wo-hitos-grid">
+
+                {safeHitos.map(h => {
+
+                  const isEditing =
+                    editingHito === h.id;
+
+                  return (
+
+                    <Card
+                      key={h.id}
+                      className="wo-hito-card"
+                    >
+
+                      {/* CABECERA */}
+
+                      <div className="wo-hito-header">
+
+                        <div className="wo-hito-left">
+
+                          <span className="wo-hito-code">
+                            {h.codigo}
+                          </span>
+
+                          <span
+                            className={`
+      wo-hito-status
+      ${h.estado.toLowerCase()}
+    `}
+                          >
+
+                            {h.estado === 'CONCEDIDO_VB'
+                              ? 'Concedido VB'
+                              : h.estado === 'SOLICITADO_VB'
+                                ? 'Solicitado VB'
+                                : 'En curso'
+                            }
+
+                          </span>
+
+                          <span className="wo-hito-progress-badge">
+
+                            {Number(h.porcentaje || 0)}%
+
+                          </span>
+
+                        </div>
+
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={() =>
+                            setEditingHito(
+                              isEditing
+                                ? null
+                                : h.id
                             )
                           }
                         >
 
-                          <option value="EN_CURSO">
-                            En curso
-                          </option>
+                          {isEditing
+                            ? 'Cerrar'
+                            : 'Editar'}
 
-                          <option value="SOLICITADO_VB">
-                            Solicitado VB
-                          </option>
+                        </Button>
 
-                          <option value="CONCEDIDO_VB">
-                            Concedido VB
-                          </option>
+                      </div>
 
-                        </select>
+                      {/* DETALLE */}
+                      <div className="wo-hito-main-row">
 
-                      </td>
+                        <div className="wo-hito-objective">
 
-                    </tr>
+                          <span>
 
-                  ))}
+                            🎯 Objetivo
 
-                </tbody>
+                          </span>
 
-              </table>
+                          <p>
 
-            </div>
+                            {h.descripcion ||
+                              'Sin descripción definida'}
+
+                          </p>
+
+                        </div>
+
+                        <div className="wo-hito-amount">
+
+                          <span>
+
+                            💰 Importe
+
+                          </span>
+
+                          <strong>
+
+                            {Number(
+                              h.importe || 0
+                            ).toLocaleString('es-ES')} €
+
+                          </strong>
+
+                        </div>
+
+                      </div>
+
+                      {/* FECHAS */}
+
+                      <div className="wo-hito-dates">
+
+                        <div className="wo-hito-date">
+
+                          <span>
+                            📅 Inicio WO
+                          </span>
+
+                          <strong>
+
+                            {formatDate(
+                              workOrder.fechaInicio
+                            )}
+
+                          </strong>
+
+                        </div>
+
+                        <div className="wo-hito-date">
+
+                          <span>
+                            🏁 Fin WO
+                          </span>
+
+                          <strong>
+
+                            {formatDate(
+                              workOrder.fechaFin
+                            )}
+
+                          </strong>
+
+                        </div>
+
+                      </div>
+
+                      {/* PANEL EDICIÓN */}
+
+                      {isEditing && (
+
+                        <div className="wo-hito-editor">
+
+                          <div className="wo-field">
+
+                            <label>
+
+                              Descripción
+
+                            </label>
+
+                            <textarea
+                              rows={4}
+                              value={h.descripcion}
+                              onChange={(e) =>
+                                updateField(
+                                  h.id,
+                                  'descripcion',
+                                  e.target.value
+                                )
+                              }
+                            />
+
+                          </div>
+
+                          <div className="wo-editor-grid">
+
+                            <div className="wo-field">
+
+                              <label>
+
+                                %
+
+                              </label>
+
+                              <input
+                                type="number"
+                                value={h.porcentaje}
+                                onChange={(e) =>
+                                  updateField(
+                                    h.id,
+                                    'porcentaje',
+                                    e.target.value
+                                  )
+                                }
+                              />
+
+                            </div>
+
+                            <div className="wo-field">
+
+                              <label>
+
+                                €
+
+                              </label>
+
+                              <input
+                                type="number"
+                                value={h.importe}
+                                onChange={(e) =>
+                                  updateField(
+                                    h.id,
+                                    'importe',
+                                    e.target.value
+                                  )
+                                }
+                              />
+
+                            </div>
+
+                          </div>
+
+                          <div className="wo-field">
+
+                            <label>
+
+                              Estado
+
+                            </label>
+
+                            <select
+                              value={h.estado}
+                              onChange={(e) =>
+                                updateField(
+                                  h.id,
+                                  'estado',
+                                  e.target.value
+                                )
+                              }
+                            >
+
+                              <option value="EN_CURSO">
+                                En curso
+                              </option>
+
+                              <option value="SOLICITADO_VB">
+                                Solicitado VB
+                              </option>
+
+                              <option value="CONCEDIDO_VB">
+                                Concedido VB
+                              </option>
+
+                            </select>
+
+                          </div>
+
+                        </div>
+
+                      )}
+
+                    </Card>
+
+                  );
+
+                })}
+
+              </div>
+
+            </>
 
           )}
 

@@ -32,6 +32,7 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
   const [activeTab, setActiveTab] = useState('general');
   const [openWO, setOpenWO] = useState(false);
   const [selectedWO, setSelectedWO] = useState(null);
+  const [showAlerts, setShowAlerts] = useState(false);
 
   // 💡 Reducimos el ruido de contadores a un único disparador de recarga semántico
   const [triggerReload, setTriggerReload] = useState(false);
@@ -84,28 +85,24 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
 
       <ProjectExecutiveHeader
         dashboard={dashboard}
+        onAlertsClick={() =>
+          setShowAlerts(prev => !prev)
+        }
       />
 
-      {dashboard && (
-        <>
-          <div className="project-health-grid">
+      {dashboard &&
+        showAlerts &&
+        dashboard.alerts?.length > 0 && (
 
-            <ProjectRiskCard
-              risk={dashboard.risk}
-            />
+          <div className="project-alerts-container">
 
-            <ProjectProgressCard
-              progress={dashboard.progress}
+            <ProjectAlerts
+              alerts={dashboard.alerts}
             />
 
           </div>
 
-          <ProjectAlerts
-            alerts={dashboard.alerts}
-          />
-
-        </>
-      )}
+        )}
 
       {/* KPIs */}
       {/* Pasamos el mismo trigger para que los KPIs se actualicen en sincronía */}
@@ -143,52 +140,50 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
         </button>
 
         <button
-          className={`
-      project-tab
-      ${activeTab === 'wo'
-              ? 'active'
-              : ''
-            }
-    `}
-          onClick={() =>
-            setActiveTab('wo')
-          }
-          role="tab"
-          aria-selected={
-            activeTab === 'wo'
-          }
+          type="button"
+          className={`project-tab ${activeTab === 'wo' ? 'active' : ''}`}
+          onClick={(e) => {
+            e.preventDefault();
+            setActiveTab('wo');
+          }}
         >
-
           Work Orders
-
         </button>
 
         <button
-          className={`
-      project-tab
-      ${activeTab === 'wo'
-              ? 'active'
-              : ''
-            }
-    `}
-          onClick={() => setActiveTab('dashboard')}
+          type="button"
+          className={`project-tab ${activeTab === 'dashboard' ? 'active' : ''}`}
+          onClick={(e) => {
+            e.preventDefault();
+            setActiveTab('dashboard');
+          }}
         >
           Dashboard
         </button>
 
       </div>
 
-      <ProjectRoadmap
+      {/* <ProjectRoadmap
         projectId={project.id}
-      />
+      /> */}
 
       {/* CONTENIDO */}
       <div className="tab-content">
-        {activeTab === 'general' && (
+        <div
+          className={`tab-panel ${activeTab === 'general'
+              ? 'active'
+              : ''
+            }`}
+        >
           <GeneralTab project={project} />
-        )}
+        </div>
 
-        {activeTab === 'wo' && (
+        <div
+          className={`tab-panel ${activeTab === 'wo'
+              ? 'active'
+              : ''
+            }`}
+        >
           <WorkOrdersPanel
             projectId={projectId}
             refresh={triggerReload} // Sincronizado
@@ -201,15 +196,18 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
               setOpenWO(true);
             }}
           />
-        )}
+        </div>
 
-        {
-          activeTab === 'dashboard' && (
-            <ProjectDashboardPage
-              projectId={project.id}
-            />
-          )
-        }
+        <div
+          className={`tab-panel ${activeTab === 'dashboard'
+              ? 'active'
+              : ''
+            }`}
+        >
+          <ProjectDashboardPage
+            projectId={project.id}
+          />
+        </div>
       </div>
 
       {/* MODAL DE WORK ORDERS */}

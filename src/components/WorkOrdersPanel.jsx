@@ -15,6 +15,7 @@ import WorkOrderCard
 
 import './WorkOrdersPanel.css';
 import { PERMISSIONS } from '@/security/permissions';
+import { useEffect } from 'react';
 
 const WorkOrdersPanel = ({
   projectId,
@@ -27,6 +28,10 @@ const WorkOrdersPanel = ({
     loading,
     error
   } = useWorkOrders(projectId);
+
+  useEffect(() => {
+  console.log('WORK ORDERS MOUNT');
+}, []);
 
   // =====================================================
   // LOADING

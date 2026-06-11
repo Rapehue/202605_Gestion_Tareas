@@ -7,6 +7,10 @@ import { useQuery } from '@/hooks/useQuery'; // Ajusta la ruta si es necesario
 import { getProyectos } from '@/api/proyectosApi'; // O la ruta correcta de tu API
 import { useState } from 'react';
 import ProyectoModal from '@/components/ProyectoModal';
+import { usePortfolio } from '@/hooks/usePortfolio_2';
+import PortfolioSummary from '@/features/portfolio/PortfolioSummary';
+import PortfolioFilters from '@/features/portfolio/PortfolioFilters';
+import PortfolioTable from '@/features/portfolio/PortfolioTable';
 
 const Proyectos = () => {
 
@@ -14,23 +18,56 @@ const Proyectos = () => {
 
   const [proyectoSeleccionado, setProyectoSeleccionado] = useState(null);
 
+  const [search, setSearch] =
+    useState('');
+
+  const [riskFilter, setRiskFilter] =
+    useState('');
+
   // 2. Consumimos los datos usando tu gestor de caché
+  // const {
+  //   data,
+  //   loading,
+  //   error,
+  //   refetch
+  // } = useQuery(
+  //   'listado-proyectos',
+  //   async () => {
+
+  //     const res =
+  //       await getProyectos();
+
+  //     return res.data || res;
+
+  //   }
+  // );
   const {
-    data,
+    data = [],
     loading,
     error,
     refetch
-  } = useQuery(
-    'listado-proyectos',
-    async () => {
+  } = usePortfolio();
 
-      const res =
-        await getProyectos();
+  const filteredProjects =
+    (data || []).filter(project => {
 
-      return res.data || res;
+      const matchesSearch =
+        `${project.codigo} ${project.nombre}`
+          .toLowerCase()
+          .includes(
+            search.toLowerCase()
+          );
 
-    }
-  );
+      const matchesRisk =
+        !riskFilter ||
+        project.risk === riskFilter;
+
+      return (
+        matchesSearch &&
+        matchesRisk
+      );
+
+    });
 
   const handleCreate = () => {
     setProyectoSeleccionado(null);
@@ -64,11 +101,37 @@ const Proyectos = () => {
 
         <Card>
           {/* 3. Pasamos los estados correspondientes a la tabla */}
-          <ProyectoTable
-            data={data || []}
+          {/* <ProyectoTable
+            // data={data || []}
+            data={filteredProjects}
             loading={loading}
             error={error}
             onRefresh={refetch}
+          /> */}
+
+
+        </Card>
+
+        <PortfolioSummary
+          projects={filteredProjects}
+        />
+
+        <Card>
+
+          <PortfolioFilters
+
+            search={search}
+            setSearch={setSearch}
+
+            riskFilter={riskFilter}
+            setRiskFilter={setRiskFilter}
+
+          />
+
+          <PortfolioTable
+
+            projects={filteredProjects}
+
           />
 
         </Card>

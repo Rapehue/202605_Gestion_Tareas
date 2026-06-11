@@ -1,0 +1,13 @@
+.portfolio-row {
+
+  cursor: pointer;
+
+  transition: background 0.2s;
+
+}
+
+.portfolio-row:hover {
+
+  background: #f8fafc;
+
+}

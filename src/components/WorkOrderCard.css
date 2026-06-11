@@ -212,3 +212,440 @@
     font-size: 13px;
     font-weight: 500;
 }
+
+/* ===================================== */
+/* HITOS EXECUTIVE VIEW */
+/* ===================================== */
+
+/* ===================================== */
+/* FACTURACIÓN SUMMARY */
+/* ===================================== */
+
+/* .wo-hitos-summary {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+} */
+
+.wo-hitos-summary {
+  display: grid;
+  grid-template-columns:
+    repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.wo-summary-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  min-width: 0;
+}
+
+.wo-summary-card span {
+  display: block;
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.wo-summary-card strong {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+/* 
+.wo-summary-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+}
+
+.wo-summary-card span {
+  display: block;
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.wo-summary-card strong {
+  display: block;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f172a;
+} */
+
+/* Riesgos */
+
+.risk-bajo {
+  background: #ecfdf5;
+  border-color: #bbf7d0;
+}
+
+.risk-bajo strong {
+  color: #15803d;
+}
+
+.risk-medio {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.risk-medio strong {
+  color: #b45309;
+}
+
+.risk-alto {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.risk-alto strong {
+  color: #dc2626;
+}
+
+.wo-hitos-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fill, minmax(380px, 1fr));
+  gap: 20px;
+}
+
+.wo-hito-card {
+  padding: 20px;
+}
+
+/* .wo-hito-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+} */
+
+.wo-hito-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.wo-hito-body label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.wo-hito-body textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+.wo-hito-kpis {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.wo-hito-kpi span {
+  display: block;
+  font-size: .8rem;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.wo-hito-kpi input {
+  width: 100%;
+}
+
+.wo-hito-progress-badge {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.wo-hito-progress-fill {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #3b82f6,
+    #2563eb
+  );
+}
+
+.wo-hito-footer select {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+
+  .wo-hitos-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .wo-hitos-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+/* ===================================== */
+/* EXECUTIVE HITO CARD */
+/* ===================================== */
+
+.wo-hito-card {
+  padding: 22px;
+  transition: all .25s ease;
+}
+
+.wo-hito-card:hover {
+  transform: translateY(-3px);
+}
+
+.wo-hito-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.wo-hito-code {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.wo-hito-status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Estados */
+
+.wo-hito-status.en_curso {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.wo-hito-status.solicitado_vb {
+  background: #fffbeb;
+  color: #b45309;
+}
+
+.wo-hito-status.concedido_vb {
+  background: #ecfdf5;
+  color: #15803d;
+}
+
+.wo-hito-description {
+  margin-top: 20px;
+}
+
+.wo-hito-description span {
+  display: block;
+  margin-bottom: 8px;
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.wo-hito-description p {
+  margin: 0;
+  line-height: 1.5;
+  color: #334155;
+}
+
+.wo-hito-metrics {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.wo-hito-metric {
+  text-align: center;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.wo-hito-metric strong {
+  display: block;
+  font-size: 1.4rem;
+}
+
+.wo-hito-metric span {
+  color: #64748b;
+  font-size: .8rem;
+}
+
+.wo-hito-progress-block {
+  margin-top: 20px;
+}
+
+.wo-hito-progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.wo-hito-progress {
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.wo-hito-progress-fill {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #2563eb,
+    #3b82f6
+  );
+}
+
+.wo-hito-editor {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.wo-editor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.wo-hito-editor textarea,
+.wo-hito-editor input,
+.wo-hito-editor select {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+
+  .wo-hito-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .wo-editor-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+/* ===================================== */
+/* HEADER HITOS */
+/* ===================================== */
+
+.wo-hitos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.wo-hitos-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.wo-hitos-header p {
+  margin: 4px 0 0 0;
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.wo-hitos-header .btn,
+.wo-hitos-header button {
+  flex-shrink: 0;
+}
+
+.wo-hito-main-row {
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 16px;
+}
+
+.wo-hito-objective span,
+.wo-hito-amount span {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.wo-hito-objective p {
+  margin: 0;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.wo-hito-amount {
+  text-align: right;
+}
+
+.wo-hito-amount strong {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+@media (max-width: 768px) {
+
+  .wo-hito-main-row {
+    grid-template-columns: 1fr;
+  }
+
+  .wo-hito-amount {
+    text-align: left;
+  }
+
+}
+
+.wo-hito-dates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.wo-hito-date span {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.wo-hito-date strong {
+  font-size: 0.95rem;
+  color: #0f172a;
+  font-weight: 600;
+}

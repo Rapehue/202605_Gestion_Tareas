@@ -1,0 +1,31 @@
+.portfolio-filters {
+
+  display: flex;
+
+  gap: 12px;
+
+  margin-bottom: 20px;
+
+}
+
+.portfolio-filters input {
+
+  flex: 1;
+
+  padding: 10px 12px;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 8px;
+
+}
+
+.portfolio-filters select {
+
+  padding: 10px 12px;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 8px;
+
+}
