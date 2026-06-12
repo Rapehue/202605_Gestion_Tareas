@@ -24,7 +24,16 @@ import {
   updateHito
 } from '../api/hitosApi';
 
+import {
+  WO_STATUS
+} from '@/constants/workOrderStatus';
+
 import './WorkOrderForm.css';
+import WorkOrderStatusBadge from './WorkOrderStatusBadge';
+import WorkOrderHeader from './workorder/WorkOrderHeader';
+import WorkOrderObjectivesSection from './workorder/WorkOrderObjectivesSection';
+import WorkOrderPlanningSection from './workorder/WorkOrderPlanningSection';
+import WorkOrderFinancialSection from './workorder/WorkOrderFinancialSection';
 
 const INITIAL_FORM = {
   proveedor: '',
@@ -70,6 +79,8 @@ const WorkOrderForm = ({
         ...INITIAL_FORM,
         ...initialData
       });
+
+      console.log(initialData)
 
     } else {
 
@@ -133,7 +144,7 @@ const WorkOrderForm = ({
       if (isEdit) {
 
         console.log('✏️ Actualizando WO');
-        
+
         console.log(
           'PAYLOAD UPDATE WO:',
           cleanPayload
@@ -254,6 +265,11 @@ const WorkOrderForm = ({
 
       </div>
 
+      <WorkOrderHeader
+        form={form}
+        onChange={handleChange}
+      />
+
       {/* ========================================== */}
       {/* MAIN GRID */}
       {/* ========================================== */}
@@ -264,340 +280,32 @@ const WorkOrderForm = ({
         {/* IDENTIFICACIÓN */}
         {/* ====================================== */}
 
-        <Card className="wo-form-card">
-
-          <div className="wo-form-section-title">
-
-            <ClipboardList size={18} />
-
-            <span>
-              Identificación
-            </span>
-
-          </div>
-
-          <div className="wo-fields-grid">
-
-            <div className="wo-field">
-
-              <label>
-                Código
-              </label>
-
-              <div className="wo-input-wrapper">
-
-                <FileText size={16} />
-
-                <input
-                  placeholder="WO-2026-001"
-                  value={form.codigo}
-                  onChange={(e) =>
-                    handleChange(
-                      'codigo',
-                      e.target.value
-                    )
-                  }
-                  required
-                />
-
-              </div>
-
-            </div>
-
-            <div className="wo-field">
-
-              <label>
-                Proveedor
-              </label>
-
-              <div className="wo-input-wrapper">
-
-                <Building2 size={16} />
-
-                <input
-                  placeholder="Proveedor"
-                  value={form.proveedor}
-                  onChange={(e) =>
-                    handleChange(
-                      'proveedor',
-                      e.target.value
-                    )
-                  }
-                />
-
-              </div>
-
-            </div>
-
-            <div className="wo-field wo-field-full">
-
-              <label>
-                Descripción
-              </label>
-
-              <textarea
-                rows={4}
-                placeholder="Descripción funcional y operativa..."
-                value={form.descripcion}
-                onChange={(e) =>
-                  handleChange(
-                    'descripcion',
-                    e.target.value
-                  )
-                }
-              />
-
-            </div>
-
-          </div>
-
-        </Card>
-
         {/* ====================================== */}
         {/* OBJETIVOS */}
         {/* ====================================== */}
 
-        <Card className="wo-form-card">
+        <WorkOrderObjectivesSection
+          form={form}
+          onChange={handleChange}
+        />
 
-          <div className="wo-form-section-title">
-
-            <ClipboardList size={18} />
-
-            <span>
-              Objetivos y alcance
-            </span>
-
-          </div>
-
-          <div className="wo-fields-grid">
-
-            <div className="wo-field wo-field-full">
-
-              <label>
-                Objetivos de la Work Order
-              </label>
-
-              <textarea
-                rows={5}
-                placeholder="
-Define los objetivos funcionales, operativos y de negocio que se pretenden alcanzar con esta Work Order...
-        "
-                value={form.objetivo}
-                onChange={(e) =>
-                  handleChange(
-                    'objetivo',
-                    e.target.value
-                  )
-                }
-              />
-
-              <small className="wo-help-text">
-
-                Describe el impacto esperado, mejoras,
-                automatizaciones o entregables asociados.
-
-              </small>
-
-            </div>
-
-          </div>
-
-        </Card>
         {/* ====================================== */}
         {/* PLANIFICACIÓN */}
         {/* ====================================== */}
 
-        <Card className="wo-form-card">
-
-          <div className="wo-form-section-title">
-
-            <CalendarDays size={18} />
-
-            <span>
-              Planificación
-            </span>
-
-          </div>
-
-          <div className="wo-fields-grid">
-
-            <div className="wo-field">
-
-              <label>
-                Fecha inicio
-              </label>
-
-              <input
-                type="date"
-                value={form.fecha_inicio}
-                onChange={(e) =>
-                  handleChange(
-                    'fecha_inicio',
-                    e.target.value
-                  )
-                }
-              />
-
-            </div>
-
-            <div className="wo-field">
-
-              <label>
-                Fecha fin
-              </label>
-
-              <input
-                type="date"
-                value={form.fecha_fin}
-                onChange={(e) =>
-                  handleChange(
-                    'fecha_fin',
-                    e.target.value
-                  )
-                }
-              />
-
-            </div>
-
-          </div>
-
-        </Card>
+        <WorkOrderPlanningSection
+          form={form}
+          onChange={handleChange}
+        />
 
         {/* ====================================== */}
         {/* ECONÓMICO */}
         {/* ====================================== */}
 
-        <Card className="wo-form-card">
-
-          <div className="wo-form-section-title">
-
-            <Coins size={18} />
-
-            <span>
-              Información económica
-            </span>
-
-          </div>
-
-          <div className="wo-fields-grid">
-
-            <div className="wo-field">
-
-              <label>
-                Jornadas
-              </label>
-
-              <div className="wo-input-wrapper">
-
-                <Timer size={16} />
-
-                <input
-                  type="number"
-                  placeholder="0"
-                  value={form.jornadas}
-                  onChange={(e) =>
-                    handleChange(
-                      'jornadas',
-                      e.target.value
-                    )
-                  }
-                />
-
-              </div>
-
-            </div>
-
-            <div className="wo-field">
-
-              <label>
-                Precio
-              </label>
-
-              <div className="wo-input-wrapper">
-
-                <Coins size={16} />
-
-                <input
-                  type="number"
-                  placeholder="0 €"
-                  value={form.precio}
-                  onChange={(e) =>
-                    handleChange(
-                      'precio',
-                      e.target.value
-                    )
-                  }
-                />
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </Card>
-
-
-        {/* ====================================== */}
-        {/* GOBIERNO */}
-        {/* ====================================== */}
-        <Card className="wo-form-card">
-
-          <div className="wo-form-section-title">
-
-            <ClipboardList size={18} />
-
-            <span>
-              Gobierno
-            </span>
-
-          </div>
-
-          <div className="wo-fields-grid">
-
-            <div className="wo-field">
-
-              <label>
-                Estado
-              </label>
-
-              <select
-                value={form.estado}
-                onChange={(e) =>
-                  handleChange(
-                    'estado',
-                    e.target.value
-                  )
-                }
-              >
-
-                <option value="BORRADOR">
-                  Borrador
-                </option>
-
-                <option value="EN_CURSO">
-                  En curso
-                </option>
-
-                <option value="EN_VALIDACION">
-                  En validación
-                </option>
-
-                <option value="FINALIZADA">
-                  Finalizada
-                </option>
-
-                <option value="CANCELADA">
-                  Cancelada
-                </option>
-
-              </select>
-
-            </div>
-
-          </div>
-
-        </Card>
+        <WorkOrderFinancialSection
+          form={form}
+          onChange={handleChange}
+        />
 
       </div>
 

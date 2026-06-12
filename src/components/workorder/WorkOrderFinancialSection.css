@@ -1,0 +1,40 @@
+.wo-financial-grid {
+
+  display: grid;
+
+  grid-template-columns: 1fr;
+
+  gap: 20px;
+
+}
+
+.wo-financial-summary {
+
+  margin-top: 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 12px 16px;
+
+  border-radius: 10px;
+
+  background:
+    rgba(16, 185, 129, 0.08);
+
+  color:
+    var(--color-text-secondary);
+
+  font-size: 14px;
+
+}
+
+.wo-financial-summary strong {
+
+  color:
+    var(--color-success);
+
+  font-weight: 700;
+
+}

@@ -9,7 +9,7 @@ import {
 export const getWorkOrdersByProject = async (projectId) => {
   // Tu lógica aquí es perfecta: consume de la instancia y limpia la salida
   const data = await api.get(`/workorders/proyecto/${projectId}`);
-  return normalizeWorkOrders(data);
+  return normalizeWorkOrders(data)
 };
 
 export const createWorkOrder = async (payload) => {

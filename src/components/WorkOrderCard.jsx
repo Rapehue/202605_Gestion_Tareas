@@ -25,6 +25,7 @@ import { useHitos } from '../hooks/useHitos';
 import { formatDate } from '../utils/date'
 
 import './WorkOrderCard.css';
+import WorkOrderStatusBadge from './WorkOrderStatusBadge';
 
 const WorkOrderCard = ({
   workOrder,
@@ -42,6 +43,11 @@ const WorkOrderCard = ({
   } = useHitos(workOrder?.id);
 
   if (!workOrder) return null;
+
+  console.log(
+    'WORKORDER CARD',
+    workOrder
+  );
 
   const safeHitos = Array.isArray(hitos)
     ? hitos
@@ -585,22 +591,9 @@ const WorkOrderCard = ({
                             {h.codigo}
                           </span>
 
-                          <span
-                            className={`
-      wo-hito-status
-      ${h.estado.toLowerCase()}
-    `}
-                          >
-
-                            {h.estado === 'CONCEDIDO_VB'
-                              ? 'Concedido VB'
-                              : h.estado === 'SOLICITADO_VB'
-                                ? 'Solicitado VB'
-                                : 'En curso'
-                            }
-
-                          </span>
-
+                          <WorkOrderStatusBadge
+                            status={workOrder.estado}
+                          />
                           <span className="wo-hito-progress-badge">
 
                             {Number(h.porcentaje || 0)}%

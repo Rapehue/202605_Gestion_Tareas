@@ -55,6 +55,8 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
       }
     };
 
+
+
     loadProject();
 
     return () => {
@@ -171,8 +173,8 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
       <div className="tab-content">
         <div
           className={`tab-panel ${activeTab === 'general'
-              ? 'active'
-              : ''
+            ? 'active'
+            : ''
             }`}
         >
           <GeneralTab project={project} />
@@ -180,8 +182,8 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
 
         <div
           className={`tab-panel ${activeTab === 'wo'
-              ? 'active'
-              : ''
+            ? 'active'
+            : ''
             }`}
         >
           <WorkOrdersPanel
@@ -192,16 +194,23 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
               setOpenWO(true);
             }}
             onEdit={(wo) => {
+
+              console.log(
+                'WO EDITAR',
+                wo
+              );
+
               setSelectedWO(wo);
               setOpenWO(true);
+
             }}
           />
         </div>
 
         <div
           className={`tab-panel ${activeTab === 'dashboard'
-              ? 'active'
-              : ''
+            ? 'active'
+            : ''
             }`}
         >
           <ProjectDashboardPage

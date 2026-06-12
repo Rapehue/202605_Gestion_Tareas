@@ -1,0 +1,26 @@
+.wo-objectives-grid {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+
+}
+
+.wo-objectives-grid .textarea-field {
+
+  min-height: 120px;
+
+}
+
+@media (max-width: 1024px) {
+
+  .wo-objectives-grid {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+}

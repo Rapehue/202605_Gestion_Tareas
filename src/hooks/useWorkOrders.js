@@ -15,6 +15,8 @@ export const useWorkOrders = (projectId) => {
     () => getWorkOrdersByProject(projectId)
   );
 
+  console.log (query)
+
   // 🔥 MUTATIONS
 
   const addWorkOrder = async (payload) => {

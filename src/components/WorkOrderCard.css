@@ -1,20 +1,20 @@
 .workorder-card {
-    padding: 28px;
-    border-radius: 22px;
-    border: 1px solid #e5e7eb;
-    background: #ffffff;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+  padding: 28px;
+  border-radius: 22px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .workorder-card:hover {
-    transform: translateY(-2px);
-    box-shadow:
-        0 10px 30px rgba(15, 23, 42, 0.06);
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.06);
 }
 
 /* ======================================================
@@ -22,73 +22,73 @@
 ====================================================== */
 
 .workorder-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
 }
 
 .workorder-header-left {
-    display: flex;
-    align-items: center;
-    gap: 18px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 
 .workorder-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 16px;
-    background:
-        rgba(59, 130, 246, 0.10);
-    color: #2563eb;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background:
+    rgba(59, 130, 246, 0.10);
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .workorder-main-info h3 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 700;
-    color: #0f172a;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
 }
 
 .workorder-main-info p {
-    margin: 6px 0 0;
-    font-size: 13px;
-    color: #64748b;
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #64748b;
 }
 
 .workorder-title-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .workorder-header-right {
-    display: flex;
-    align-items: center;
-    gap: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .workorder-amount {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
 }
 
 .workorder-amount span {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #94a3b8;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
 }
 
 .workorder-amount strong {
-    font-size: 18px;
-    font-weight: 700;
-    color: #0f172a;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
 }
 
 /* ======================================================
@@ -96,65 +96,65 @@
 ====================================================== */
 
 .workorder-kpis {
-    display: grid;
-    grid-template-columns:
-        repeat(3, 1fr);
-    gap: 18px;
+  display: grid;
+  grid-template-columns:
+    repeat(3, 1fr);
+  gap: 18px;
 }
 
 .wo-kpi {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 18px;
-    border-radius: 18px;
-    background:
-        linear-gradient(180deg,
-            #ffffff 0%,
-            #f8fafc 100%);
-    border: 1px solid #edf0f3;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg,
+      #ffffff 0%,
+      #f8fafc 100%);
+  border: 1px solid #edf0f3;
 }
 
 .wo-kpi span {
-    display: block;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #94a3b8;
-    margin-bottom: 4px;
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  margin-bottom: 4px;
 }
 
 .wo-kpi strong {
-    font-size: 15px;
-    font-weight: 700;
-    color: #0f172a;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
 }
 
 .wo-kpi-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .wo-kpi-icon.blue {
-    background:
-        rgba(59, 130, 246, 0.12);
-    color: #2563eb;
+  background:
+    rgba(59, 130, 246, 0.12);
+  color: #2563eb;
 }
 
 .wo-kpi-icon.green {
-    background:
-        rgba(16, 185, 129, 0.12);
-    color: #10b981;
+  background:
+    rgba(16, 185, 129, 0.12);
+  color: #10b981;
 }
 
 .wo-kpi-icon.purple {
-    background:
-        rgba(139, 92, 246, 0.12);
-    color: #8b5cf6;
+  background:
+    rgba(139, 92, 246, 0.12);
+  color: #8b5cf6;
 }
 
 /* ======================================================
@@ -162,32 +162,32 @@
 ====================================================== */
 
 .wo-progress-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .wo-progress-bar {
-    width: 100%;
-    height: 10px;
-    border-radius: 999px;
-    background: #e5e7eb;
-    overflow: hidden;
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
 }
 
 .wo-progress-fill {
-    height: 100%;
-    border-radius: 999px;
-    background:
-        linear-gradient(90deg,
-            #2563eb 0%,
-            #3b82f6 100%);
+  height: 100%;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg,
+      #2563eb 0%,
+      #3b82f6 100%);
 }
 
 .wo-progress-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
 }
 
 /* ======================================================
@@ -195,22 +195,22 @@
 ====================================================== */
 
 .wo-warnings {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .wo-warning-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 16px;
-    border-radius: 14px;
-    background:
-        rgba(245, 158, 11, 0.08);
-    color: #b45309;
-    font-size: 13px;
-    font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background:
+    rgba(245, 158, 11, 0.08);
+  color: #b45309;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 /* ===================================== */
@@ -312,10 +312,12 @@
 }
 
 .wo-hitos-grid {
-  display: grid;
+  /* display: grid;
   grid-template-columns:
-    repeat(auto-fill, minmax(380px, 1fr));
+    repeat(auto-fill, minmax(380px, 1fr)); */
   gap: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .wo-hito-card {
@@ -377,11 +379,9 @@
 
 .wo-hito-progress-fill {
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    #3b82f6,
-    #2563eb
-  );
+  background: linear-gradient(90deg,
+      #3b82f6,
+      #2563eb);
 }
 
 .wo-hito-footer select {
@@ -472,7 +472,7 @@
 
 .wo-hito-metrics {
   display: grid;
-  grid-template-columns: repeat(2,1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   margin-top: 20px;
 }
@@ -513,11 +513,9 @@
 
 .wo-hito-progress-fill {
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    #2563eb,
-    #3b82f6
-  );
+  background: linear-gradient(90deg,
+      #2563eb,
+      #3b82f6);
 }
 
 .wo-hito-editor {

@@ -17,11 +17,17 @@ export const normalizeWorkOrder = (wo = {}) => ({
   precio: toNumber(wo.precio) || 0,
 
   // 🚦 Añadimos el estado del flujo de trabajo con un fallback seguro
-  estado: wo.estado || 'PENDIENTE' 
+  estado: wo.estado || 'PENDIENTE',
+
+  objetivo: wo.objetivo
 });
 
 export const normalizeWorkOrders = (data) => {
   if (!Array.isArray(data)) return [];
+   console.log(
+    'NORMALIZANDO WO',
+    data
+  );
   return data.map(normalizeWorkOrder);
 };
 
