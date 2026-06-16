@@ -1,0 +1,59 @@
+.hito-summary {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 16px;
+
+}
+
+.summary-card {
+
+  background: white;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 12px;
+
+  padding: 18px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+}
+
+.summary-card span {
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  color: #64748b;
+
+}
+
+.summary-card strong {
+
+  font-size: 24px;
+
+  color: #0f172a;
+
+}
+
+@media (max-width: 1000px) {
+
+  .hito-summary {
+
+    grid-template-columns:
+      repeat(2, 1fr);
+
+  }
+
+}

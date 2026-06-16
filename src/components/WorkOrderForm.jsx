@@ -15,16 +15,6 @@ import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 
 import {
-  createWorkOrder,
-  updateWorkOrder
-} from '../api/workordersApi';
-
-import {
-  createHito,
-  updateHito
-} from '../api/hitosApi';
-
-import {
   WO_STATUS
 } from '@/constants/workOrderStatus';
 
@@ -59,11 +49,8 @@ const WorkOrderForm = ({
   const [form, setForm] =
     useState(INITIAL_FORM);
 
-  const [saving, setSaving] =
-    useState(false);
-
-  // 1. Crea un estado en tu formulario para almacenar los hitos que se escriben abajo
-  const [hitosForm, setHitosForm] = useState([]);
+  // const [saving, setSaving] =
+  //   useState(false);
 
   const isEdit = !!initialData;
 
@@ -119,107 +106,108 @@ const WorkOrderForm = ({
   // SUBMIT
   // =====================================================
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => e.preventDefault();
+  // const handleSubmit = async (e) => {
 
-    e.preventDefault();
+  //   e.preventDefault();
 
-    try {
+  //   try {
 
-      setSaving(true);
+  //     setSaving(true);
 
-      const cleanPayload = {
-        ...form,
-        codigo: form.codigo?.trim() || '',
-        id_proyecto: parseInt(projectId, 10),
-        precio: Number(form.precio || 0),
-        jornadas: Number(form.jornadas || 0)
-      };
+  //     const cleanPayload = {
+  //       ...form,
+  //       codigo: form.codigo?.trim() || '',
+  //       id_proyecto: parseInt(projectId, 10),
+  //       precio: Number(form.precio || 0),
+  //       jornadas: Number(form.jornadas || 0)
+  //     };
 
-      let workOrderId;
+  //     let workOrderId;
 
-      // =====================================
-      // WORK ORDER
-      // =====================================
+  //     // =====================================
+  //     // WORK ORDER
+  //     // =====================================
 
-      if (isEdit) {
+  //     if (isEdit) {
 
-        console.log('✏️ Actualizando WO');
+  //       console.log('✏️ Actualizando WO');
 
-        console.log(
-          'PAYLOAD UPDATE WO:',
-          cleanPayload
-        );
+  //       console.log(
+  //         'PAYLOAD UPDATE WO:',
+  //         cleanPayload
+  //       );
 
-        await updateWorkOrder(
-          initialData.id,
-          cleanPayload
-        );
+  //       await updateWorkOrder(
+  //         initialData.id,
+  //         cleanPayload
+  //       );
 
-        workOrderId = initialData.id;
+  //       workOrderId = initialData.id;
 
-      } else {
+  //     } else {
 
-        console.log('➕ Creando WO');
+  //       console.log('➕ Creando WO');
 
-        const nuevaWO =
-          await createWorkOrder(
-            cleanPayload
-          );
+  //       const nuevaWO =
+  //         await createWorkOrder(
+  //           cleanPayload
+  //         );
 
-        workOrderId =
-          nuevaWO.id ||
-          nuevaWO.id_work_order;
+  //       workOrderId =
+  //         nuevaWO.id ||
+  //         nuevaWO.id_work_order;
 
-      }
+  //     }
 
-      // =====================================
-      // HITOS
-      // =====================================
+  //     // // =====================================
+  //     // // HITOS
+  //     // // =====================================
 
-      if (hitosForm?.length) {
+  //     // if (hitosForm?.length) {
 
-        for (const hito of hitosForm) {
+  //     //   for (const hito of hitosForm) {
 
-          const payloadHito = {
-            ...hito,
-            id_work_order: workOrderId
-          };
+  //     //     const payloadHito = {
+  //     //       ...hito,
+  //     //       id_work_order: workOrderId
+  //     //     };
 
-          if (hito.id) {
+  //     //     if (hito.id) {
 
-            await updateHito(
-              hito.id,
-              payloadHito
-            );
+  //     //       await updateHito(
+  //     //         hito.id,
+  //     //         payloadHito
+  //     //       );
 
-          } else {
+  //     //     } else {
 
-            await createHito(
-              payloadHito
-            );
+  //     //       await createHito(
+  //     //         payloadHito
+  //     //       );
 
-          }
+  //     //     }
 
-        }
+  //     //   }
 
-      }
+  //     // }
 
-      onSaved?.();
+  //     onSaved?.();
 
-    } catch (error) {
+  //   } catch (error) {
 
-      console.error(
-        'ERROR EN EL PROCESO DE GUARDADO:',
-        error
-      );
+  //     console.error(
+  //       'ERROR EN EL PROCESO DE GUARDADO:',
+  //       error
+  //     );
 
-    } finally {
+  //   } finally {
 
-      setSaving(false);
+  //     setSaving(false);
 
-    }
+  //   }
 
-  };
+  // };
 
   // =====================================================
   // RENDER
@@ -313,7 +301,7 @@ const WorkOrderForm = ({
       {/* ACTIONS */}
       {/* ========================================== */}
 
-      <div className="wo-form-actions">
+      {/* <div className="wo-form-actions">
 
         <Button
           type="submit"
@@ -329,7 +317,7 @@ const WorkOrderForm = ({
 
         </Button>
 
-      </div>
+      </div> */}
 
     </form>
 

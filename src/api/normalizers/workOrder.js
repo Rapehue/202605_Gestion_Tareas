@@ -33,7 +33,7 @@ export const normalizeWorkOrders = (data) => {
 
 // revierte el objeto limpio de React al formato crudo que entiende tu Base de Datos
 export const serializeWorkOrder = (wo = {}) => ({
-  id_proyecto: wo.projectId,
+  id_proyecto: wo.id_proyecto,
   codigo: wo.codigo,
   proveedor: wo.proveedor,
   descripcion: wo.descripcion,

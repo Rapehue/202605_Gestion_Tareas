@@ -1,0 +1,93 @@
+.hito-card {
+
+  background: white;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 14px;
+
+  padding: 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+
+  transition: .2s ease;
+
+}
+
+.hito-card:hover {
+
+  box-shadow:
+    0 10px 25px rgba(15,23,42,.08);
+
+}
+
+.hito-card-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-end;
+
+  gap: 20px;
+
+}
+
+.hito-card-code {
+
+  width: 180px;
+
+}
+
+.hito-card-description {
+
+  width: 100%;
+
+}
+
+.hito-card-status-selector {
+
+  width: 240px;
+
+}
+
+.hito-card-metrics {
+
+  display: grid;
+
+  grid-template-columns:
+    180px
+    250px;
+
+  gap: 16px;
+
+}
+
+.hito-card-dates {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 220px);
+
+  gap: 16px;
+
+}
+
+@media (max-width: 900px) {
+
+  .hito-card-header,
+  .hito-card-metrics,
+  .hito-card-dates {
+
+    display: flex;
+
+    flex-direction: column;
+
+  }
+
+}

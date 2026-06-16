@@ -8,8 +8,15 @@ import Button from '@/components/ui/Button'; // Asegúrate de importar tu botón
 import WorkOrderForm from './WorkOrderForm';
 import HitosTableEditable from './HitosTableEditable';
 
-import { createWorkOrder } from '@/api/workordersApi';
-import { createHito } from '@/api/hitosApi';
+import {
+  createWorkOrder,
+  updateWorkOrder
+} from '@/api/workordersApi';
+
+import {
+  createHito,
+  updateHito
+} from '@/api/hitosApi';
 
 const WorkOrderModal = ({
   open,
@@ -22,6 +29,7 @@ const WorkOrderModal = ({
   const [formData, setFormData] = useState(null);
   const [hitosForm, setHitosForm] = useState([]);
   const [saving, setSaving] = useState(false);
+
 
   // 2. 🚀 FUNCIÓN MAESTRA DE GUARDADO UNIFICADO
   const handleSaveTodo = async () => {
@@ -40,15 +48,44 @@ const WorkOrderModal = ({
       };
 
       console.log("1️⃣ Guardando cabecera de la Work Order...");
-      const nuevaWO = await createWorkOrder(cleanWOData);
-      
-      // Extraemos el ID real generado por la Base de Datos
-      const nuevoWorkOrderId = nuevaWO.id || nuevaWO.id_work_order;
+      let nuevoWorkOrderId;
+
+      if (workOrder?.id) {
+
+        console.log(
+          "✏️ Actualizando Work Order existente..."
+        );
+
+        const updatedWO =
+          await updateWorkOrder(
+            workOrder.id,
+            cleanWOData
+          );
+
+        nuevoWorkOrderId =
+          updatedWO.id;
+
+      } else {
+
+        console.log(
+          "➕ Creando nueva Work Order..."
+        );
+
+        const nuevaWO =
+          await createWorkOrder(
+            cleanWOData
+          );
+
+        nuevoWorkOrderId =
+          nuevaWO.id ||
+          nuevaWO.id_work_order;
+
+      }
 
       // B. Guardamos los hitos secuencialmente vinculados al nuevo ID
       if (hitosForm && hitosForm.length > 0) {
         console.log(`2️⃣ Guardando ${hitosForm.length} hitos para la WO ID: ${nuevoWorkOrderId}`);
-        
+
         for (const hito of hitosForm) {
           const cleanFechaSolicitud = !hito.fecha_solicitud_vb || hito.fecha_solicitud_vb === 'Invalid date' ? null : hito.fecha_solicitud_vb;
           const cleanFechaConcesion = !hito.fecha_concesion_vb || hito.fecha_concesion_vb === 'Invalid date' ? null : hito.fecha_concesion_vb;
@@ -64,7 +101,20 @@ const WorkOrderModal = ({
           delete payloadHito.fechaConcesionVb;
           delete payloadHito.workOrderId;
 
-          await createHito(payloadHito);
+          if (hito.id) {
+
+            await updateHito(
+              hito.id,
+              payloadHito
+            );
+
+          } else {
+
+            await createHito(
+              payloadHito
+            );
+
+          }
         }
       }
 
@@ -88,13 +138,13 @@ const WorkOrderModal = ({
       size="xl"
     >
       <Stack gap="xl">
-        
+
         {/* FORMULARIO DE CABECERA */}
         <WorkOrderForm
           initialData={workOrder}
           projectId={projectId}
           // 💡 Cada vez que el usuario escriba algo en el form, actualiza el estado del modal
-          onChangeForm={(data) => setFormData(data)} 
+          onChangeForm={(data) => setFormData(data)}
           isModalControlled={true} // Una bandera para decirle al formulario que no se guarde a sí mismo
         />
 
@@ -106,14 +156,35 @@ const WorkOrderModal = ({
         />
 
         {/* BOTÓN ÚNICO DE ACCIÓN AL FINAL DEL MODAL */}
-        {!workOrder?.id && (
+        {/* {!workOrder?.id && (
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
             <Button onClick={handleSaveTodo} disabled={saving} className="btn-primary">
               {saving ? 'Guardando todo...' : 'Crear Work Order e Hitos'}
             </Button>
           </div>
-        )}
+        )} */}
 
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginTop: '1rem'
+          }}
+        >
+          <Button
+            onClick={handleSaveTodo}
+            disabled={saving}
+            className="btn-primary"
+          >
+            {
+              saving
+                ? 'Guardando...'
+                : workOrder?.id
+                  ? 'Guardar Cambios'
+                  : 'Crear Work Order'
+            }
+          </Button>
+        </div>
       </Stack>
     </Modal>
   );

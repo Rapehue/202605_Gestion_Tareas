@@ -8,19 +8,16 @@ import {
     updateHito
 } from '@/api/hitosApi';
 
-import Grid from '@/layout/primitives/Grid';
 import Stack from '@/layout/primitives/Stack';
-
-import {
-    Input,
-    Select,
-    CurrencyInput,
-    DateInput
-} from '@/components/forms';
 
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
-import Badge from '@/components/ui/Badge';
+
+import HitoCardEditable
+  from './hitos/HitoCardEditable';
+
+import HitoSummary
+  from './hitos/HitoSummary';
 
 import './HitosTableEditable.css';
 
@@ -276,109 +273,50 @@ const HitosTableEditable = ({
                 )}
 
                 {/* SUMMARY CARDS */}
-                <Grid columns={3}>
-                    <div className="summary-card">
-                        <span>Total %</span>
-                        <strong className={porcentajeExcedido ? "text-danger" : ""}>
-                            {totalPorcentaje}%
-                        </strong>
-                    </div>
+                <HitoSummary
 
-                    <div className="summary-card">
-                        <span>Total Importe</span>
-                        <strong className={importeExcedido ? "text-danger" : ""}>
-                            {totalImporte.toLocaleString()} €
-                        </strong>
-                    </div>
+  numeroHitos={hitos.length}
 
-                    <div className="summary-card">
-                        <span>Estado Global</span>
-                        <Badge variant={porcentajeExcedido || importeExcedido ? 'danger' : 'success'}>
-                            {porcentajeExcedido || importeExcedido ? 'Revisar' : 'Correcto'}
-                        </Badge>
-                    </div>
-                </Grid>
+  totalPorcentaje={totalPorcentaje}
+
+  totalImporte={totalImporte}
+
+  porcentajeExcedido={porcentajeExcedido}
+
+  importeExcedido={importeExcedido}
+
+/>
 
                 {/* LISTA DE HITOS EDITABLES */}
-                <div className="hitos-table-container">
-                    {loading && (
-                        <div className="hitos-loading-status">Cargando hitos financieros...</div>
-                    )}
+                <div className="hitos-cards-container">
 
-                    {!loading && hitos.map((hito, index) => (
-                        <div key={hito.id || index} className="hito-row-container">
+  {loading && (
 
-                            {/* Número indicador de fila */}
-                            <div className="hito-row-index">#{index + 1}</div>
+    <div className="hitos-loading-status">
 
-                            {/* 🚀 DISTRIBUCIÓN ÚTIL: Todos los campos alineados horizontalmente en un grid coordinado */}
-                            <div className="hito-row-grid">
-                                <div className="cell-code">
-                                    <Input
-                                        label="Código"
-                                        value={hito.codigo}
-                                        onChange={(e) => handleChange(index, 'codigo', e.target.value)}
-                                        placeholder="H-1"
-                                    />
-                                </div>
+      Cargando hitos financieros...
 
-                                <div className="cell-desc">
-                                    <Input
-                                        label="Descripción"
-                                        value={hito.descripcion}
-                                        onChange={(e) => handleChange(index, 'descripcion', e.target.value)}
-                                        placeholder="Concepto del hito..."
-                                    />
-                                </div>
+    </div>
 
-                                <div className="cell-pct">
-                                    <Input
-                                        label="%"
-                                        type="number"
-                                        value={hito.porcentaje}
-                                        onChange={(e) => handleChange(index, 'porcentaje', e.target.value)}
-                                        placeholder="0"
-                                    />
-                                </div>
+  )}
 
-                                <div className="cell-amount">
-                                    <CurrencyInput
-                                        label="Importe"
-                                        value={hito.importe}
-                                        onChange={(value) => handleChange(index, 'importe', value)}
-                                    />
-                                </div>
+  {!loading && hitos.map((hito, index) => (
 
-                                <div className="cell-status">
-                                    <Select
-                                        label="Estado"
-                                        value={hito.estado}
-                                        onChange={(e) => handleChange(index, 'estado', e.target.value)}
-                                        options={ESTADOS}
-                                    />
-                                </div>
+    <HitoCardEditable
 
-                                <div className="cell-date">
-                                    <DateInput
-                                        label="Solicitud VB"
-                                        value={hito.fecha_solicitud_vb}
-                                        // 💡 Pasamos el valor directo que emita el componente sin forzar e.target.value
-                                        onChange={(val) => handleChange(index, 'fecha_solicitud_vb', val)}
-                                    />
-                                </div>
+      key={hito.id || index}
 
-                                <div className="cell-date">
-                                    <DateInput
-                                        label="Concesión VB"
-                                        value={hito.fecha_concesion_vb}
-                                        // 💡 Hacemos lo mismo aquí
-                                        onChange={(val) => handleChange(index, 'fecha_concesion_vb', val)}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+      hito={hito}
+
+      index={index}
+
+      onChange={handleChange}
+
+    />
+
+  ))}
+
+</div>
 
                 {/* ACCIONES PIE */}
                 {workOrderId && (
