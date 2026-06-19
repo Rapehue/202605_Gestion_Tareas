@@ -1,46 +1,29 @@
 import { useEffect, useState } from 'react';
-// 🔍 Cambiamos 'getProyectos' por la petición directa e individualizada por ID
-import { useParams } from 'react-router-dom'; // 👈 1. Importa useParams
+import { useParams } from 'react-router-dom';
 import { getProyectoById } from '@/api/proyectosApi';
-import {
-  ProjectKPIs,
-  GeneralTab,
-  WorkOrdersPanel,
-  WorkOrderModal
-} from '@/components';
-import '@/styles/projectDetail.css';
-import ProjectDashboardPage from '@/features/dashboard/ProjectDashboardPage';
-import ProjectRiskCard from '@/features/dashboard/ProjectRiskCard';
-import ProjectProgressCard from '@/features/dashboard/ProjectProgressCard';
-import ProjectAlerts from '@/features/dashboard/ProjectAlerts';
-
 import { useProjectDashboard } from '@/hooks/useProjectDashboard';
+import { ProjectKPIs, GeneralTab, WorkOrdersPanel, WorkOrderModal } from '@/components';
+import ProjectDashboardPage from '@/features/dashboard/ProjectDashboardPage';
 import ProjectExecutiveHeader from '@/features/dashboard/ProjectExecutiveHeader';
 import ProjectTimeline from '@/features/dashboard/ProjectTimeline';
-import ProjectRoadmap from '@/features/dashboard/ProjectRoadmap';
+import ProjectAlerts from '@/features/dashboard/ProjectAlerts';
+import '@/styles/projectDetail.css';
 
-const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop directo
-  const { id } = useParams(); // 👈 3. Extraemos el ":id" real de la URL del navegador
+const ProjectDetail = () => {
+  const { id } = useParams();
   const projectId = id;
 
-  const {
-    data: dashboard,
-    loading: dashboardLoading
-  } = useProjectDashboard(id);
+  const { data: dashboard, loading: dashboardLoading } = useProjectDashboard(id);
 
   const [project, setProject] = useState(null);
   const [activeTab, setActiveTab] = useState('general');
   const [openWO, setOpenWO] = useState(false);
   const [selectedWO, setSelectedWO] = useState(null);
   const [showAlerts, setShowAlerts] = useState(false);
-
-  // 💡 Reducimos el ruido de contadores a un único disparador de recarga semántico
   const [triggerReload, setTriggerReload] = useState(false);
 
   useEffect(() => {
-    // 🛡️ Salvaguarda vital: si no hay ID, no hacemos nada
     if (!projectId) return;
-
     let isMounted = true;
 
     const loadProject = async () => {
@@ -55,18 +38,15 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
       }
     };
 
-
-
     loadProject();
 
     return () => {
       isMounted = false;
     };
-  }, [projectId, triggerReload]); // 👈 Línea 56 revisada y perfectamente cerrada
-
+  }, [projectId, triggerReload]);
 
   const reloadAll = () => {
-    setTriggerReload(prev => !prev); // Alternar el booleano dispara el useEffect de arriba de forma limpia
+    setTriggerReload(prev => !prev);
   };
 
   if (!project) return <div className="loading-state">Cargando detalles del proyecto...</div>;
@@ -75,70 +55,35 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
 
   return (
     <div className="project-detail">
-
       {/* HEADER */}
       <div className="header">
-        {/* Aquí tus datos ya lucen limpios y normalizados */}
         <h2>{project.codigo} - {project.nombre}</h2>
-        {/* <span className="subtitle">
-          {project.plan} / {project.eje}
-        </span> */}
       </div>
 
       <ProjectExecutiveHeader
         dashboard={dashboard}
-        onAlertsClick={() =>
-          setShowAlerts(prev => !prev)
-        }
+        onAlertsClick={() => setShowAlerts(prev => !prev)}
       />
 
-      {dashboard &&
-        showAlerts &&
-        dashboard.alerts?.length > 0 && (
+      {dashboard && showAlerts && dashboard.alerts?.length > 0 && (
+        <div className="project-alerts-container">
+          <ProjectAlerts alerts={dashboard.alerts} />
+        </div>
+      )}
 
-          <div className="project-alerts-container">
-
-            <ProjectAlerts
-              alerts={dashboard.alerts}
-            />
-
-          </div>
-
-        )}
-
-      {/* KPIs */}
-      {/* Pasamos el mismo trigger para que los KPIs se actualicen en sincronía */}
+      {/* KPIs & TIMELINE */}
       <ProjectKPIs projectId={projectId} refresh={triggerReload} />
+      <ProjectTimeline project={project} />
 
-      <ProjectTimeline
-        project={project}
-      />
-
-      {/* TABS */}
-      <div
-        className="project-tabs"
-        role="tablist"
-      >
-
+      {/* TABS SELECTOR */}
+      <div className="project-tabs" role="tablist">
         <button
-          className={`
-      project-tab
-      ${activeTab === 'general'
-              ? 'active'
-              : ''
-            }
-    `}
-          onClick={() =>
-            setActiveTab('general')
-          }
+          className={`project-tab ${activeTab === 'general' ? 'active' : ''}`}
+          onClick={() => setActiveTab('general')}
           role="tab"
-          aria-selected={
-            activeTab === 'general'
-          }
+          aria-selected={activeTab === 'general'}
         >
-
           General
-
         </button>
 
         <button
@@ -148,6 +93,8 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
             e.preventDefault();
             setActiveTab('wo');
           }}
+          role="tab"
+          aria-selected={activeTab === 'wo'}
         >
           Work Orders
         </button>
@@ -159,63 +106,37 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
             e.preventDefault();
             setActiveTab('dashboard');
           }}
+          role="tab"
+          aria-selected={activeTab === 'dashboard'}
         >
           Dashboard
         </button>
-
       </div>
 
-      {/* <ProjectRoadmap
-        projectId={project.id}
-      /> */}
-
-      {/* CONTENIDO */}
+      {/* TAB CONTENT PANELS */}
       <div className="tab-content">
-        <div
-          className={`tab-panel ${activeTab === 'general'
-            ? 'active'
-            : ''
-            }`}
-        >
+        <div className={`tab-panel ${activeTab === 'general' ? 'active' : ''}`}>
           <GeneralTab project={project} />
         </div>
 
-        <div
-          className={`tab-panel ${activeTab === 'wo'
-            ? 'active'
-            : ''
-            }`}
-        >
+        <div className={`tab-panel ${activeTab === 'wo' ? 'active' : ''}`}>
           <WorkOrdersPanel
             projectId={projectId}
-            refresh={triggerReload} // Sincronizado
+            refresh={triggerReload}
             onCreate={() => {
               setSelectedWO(null);
               setOpenWO(true);
             }}
             onEdit={(wo) => {
-
-              console.log(
-                'WO EDITAR',
-                wo
-              );
-
+              console.log('WO EDITAR', wo);
               setSelectedWO(wo);
               setOpenWO(true);
-
             }}
           />
         </div>
 
-        <div
-          className={`tab-panel ${activeTab === 'dashboard'
-            ? 'active'
-            : ''
-            }`}
-        >
-          <ProjectDashboardPage
-            projectId={project.id}
-          />
+        <div className={`tab-panel ${activeTab === 'dashboard' ? 'active' : ''}`}>
+          <ProjectDashboardPage projectId={project.id} />
         </div>
       </div>
 
@@ -228,7 +149,7 @@ const ProjectDetail = () => { // 👈 2. Ya no dependemos de recibirlo por prop 
           projectId={projectId}
           onSaved={() => {
             setOpenWO(false);
-            reloadAll(); // ⚡ Ejecuta la recarga en cascada de proyecto, KPIs y paneles
+            reloadAll();
           }}
         />
       )}

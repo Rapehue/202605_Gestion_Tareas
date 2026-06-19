@@ -1,0 +1,144 @@
+.task-badge {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 4px 10px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+
+}
+
+/* ESTADOS */
+
+.status-pendiente {
+
+  background: #f3f4f6;
+  color: #6b7280;
+
+}
+
+.status-en-curso {
+
+  background: #dbeafe;
+  color: #2563eb;
+
+}
+
+.status-bloqueada {
+
+  background: #fee2e2;
+  color: #dc2626;
+
+}
+
+.status-finalizada {
+
+  background: #dcfce7;
+  color: #16a34a;
+
+}
+
+/* PRIORIDADES */
+
+.priority-baja {
+
+  background: #dcfce7;
+  color: #15803d;
+
+}
+
+.priority-media {
+
+  background: #fef3c7;
+  color: #b45309;
+
+}
+
+.priority-alta {
+
+  background: #fed7aa;
+  color: #c2410c;
+
+}
+
+.priority-critica {
+
+  background: #fee2e2;
+  color: #991b1b;
+
+}
+
+
+.environment-badge {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 6px 12px;
+
+  border-radius: 10px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  border: 1px solid transparent;
+
+}
+
+.environment-icon {
+
+  font-size: 14px;
+
+  line-height: 1;
+
+}
+
+/* Desarrollo */
+
+.env-des {
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
+  border-color: #bfdbfe;
+
+}
+
+/* Preproducción */
+
+.env-pre {
+
+  background: #fff7ed;
+
+  color: #ea580c;
+
+  border-color: #fdba74;
+
+}
+
+/* Producción */
+
+.env-pro {
+
+  background: #ecfdf5;
+
+  color: #059669;
+
+  border-color: #86efac;
+
+}

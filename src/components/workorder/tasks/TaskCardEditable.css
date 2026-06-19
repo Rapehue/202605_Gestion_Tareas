@@ -1,0 +1,147 @@
+.task-card {
+
+  border-radius: 16px;
+
+  padding: 24px;
+
+  background: white;
+
+  border: 1px solid #e2e8f0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+
+}
+
+.task-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+}
+
+.task-header-left {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+}
+
+.task-header-right {
+
+  display: flex;
+
+  gap: 10px;
+
+}
+
+.task-code-input {
+
+  width: 110px;
+
+}
+
+.task-type-badge {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.task-title input {
+
+  font-size: 1.1rem;
+
+  font-weight: 600;
+
+}
+
+.task-description textarea {
+
+  min-height: 90px;
+
+}
+
+.task-kpis {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 16px;
+
+}
+
+.task-kpi {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 12px;
+
+  background: #f8fafc;
+
+  border-radius: 12px;
+
+}
+
+.task-progress {
+
+  position: relative;
+
+  height: 14px;
+
+  background: #e2e8f0;
+
+  border-radius: 999px;
+
+  overflow: hidden;
+
+}
+
+.task-progress-fill {
+
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    #2563eb,
+    #3b82f6
+  );
+
+  transition: width .3s ease;
+
+}
+
+.task-progress span {
+
+  position: absolute;
+
+  right: 10px;
+
+  top: -22px;
+
+  font-size: .75rem;
+
+  font-weight: 700;
+
+  color: #475569;
+
+}
+

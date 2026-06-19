@@ -1,0 +1,35 @@
+.env-selector {
+
+  display: flex;
+
+  gap: 12px;
+
+}
+
+.env-btn {
+
+  border: 1px solid #dbe3ec;
+
+  background: white;
+
+  border-radius: 10px;
+
+  padding: 8px 16px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+}
+
+.env-btn.active {
+
+  background: #2563eb;
+
+  color: white;
+
+  border-color: #2563eb;
+
+}

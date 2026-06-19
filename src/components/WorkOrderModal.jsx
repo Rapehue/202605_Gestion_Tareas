@@ -1,9 +1,11 @@
 // src/components/workorders/WorkOrderModal.jsx
 
 import { useState } from 'react';
+
 import { Modal } from '@/components/';
 import Stack from '@/layout/primitives/Stack';
-import Button from '@/components/ui/Button'; // Asegúrate de importar tu botón
+
+import Button from '@/components/ui/Button';
 
 import WorkOrderForm from './WorkOrderForm';
 import HitosTableEditable from './HitosTableEditable';
@@ -17,6 +19,7 @@ import {
   createHito,
   updateHito
 } from '@/api/hitosApi';
+import WorkOrderTasksPanel from './workorder/tasks/WorkOrderTasksPanel';
 
 const WorkOrderModal = ({
   open,
@@ -25,35 +28,70 @@ const WorkOrderModal = ({
   onSaved,
   projectId
 }) => {
-  // 1. 🌟 Declaramos los estados compartidos aquí en el Modal
-  const [formData, setFormData] = useState(null);
-  const [hitosForm, setHitosForm] = useState([]);
-  const [saving, setSaving] = useState(false);
 
+  const [formData, setFormData] =
+    useState(null);
 
-  // 2. 🚀 FUNCIÓN MAESTRA DE GUARDADO UNIFICADO
+  const [hitosForm, setHitosForm] =
+    useState([]);
+
+  const [saving, setSaving] =
+    useState(false);
+
+  // =====================================================
+  // GUARDADO UNIFICADO
+  // =====================================================
+
   const handleSaveTodo = async () => {
+
     if (!formData) return;
 
     try {
+
       setSaving(true);
 
-      // A. Formateamos el payload de la Work Order
       const cleanWOData = {
+
         ...formData,
-        codigo: formData.codigo ? String(formData.codigo).trim() : '',
-        id_proyecto: formData.id_proyecto ? parseInt(formData.id_proyecto, 10) : parseInt(projectId, 10),
-        precio: formData.precio ? Number(formData.precio) : 0,
-        importe: formData.importe ? Number(formData.importe) : 0
+
+        codigo:
+          formData.codigo
+            ? String(formData.codigo).trim()
+            : '',
+
+        id_proyecto:
+          formData.id_proyecto
+            ? parseInt(
+              formData.id_proyecto,
+              10
+            )
+            : parseInt(
+              projectId,
+              10
+            ),
+
+        precio:
+          Number(
+            formData.precio || 0
+          ),
+
+        jornadas:
+          Number(
+            formData.jornadas || 0
+          )
+
       };
 
-      console.log("1️⃣ Guardando cabecera de la Work Order...");
-      let nuevoWorkOrderId;
+      let workOrderId;
+
+      // ==========================================
+      // WORK ORDER
+      // ==========================================
 
       if (workOrder?.id) {
 
         console.log(
-          "✏️ Actualizando Work Order existente..."
+          '✏️ Actualizando Work Order'
         );
 
         const updatedWO =
@@ -62,13 +100,14 @@ const WorkOrderModal = ({
             cleanWOData
           );
 
-        nuevoWorkOrderId =
-          updatedWO.id;
+        workOrderId =
+          updatedWO?.id ||
+          workOrder.id;
 
       } else {
 
         console.log(
-          "➕ Creando nueva Work Order..."
+          '➕ Creando Work Order'
         );
 
         const nuevaWO =
@@ -76,93 +115,145 @@ const WorkOrderModal = ({
             cleanWOData
           );
 
-        nuevoWorkOrderId =
+        workOrderId =
           nuevaWO.id ||
           nuevaWO.id_work_order;
 
       }
 
-      // B. Guardamos los hitos secuencialmente vinculados al nuevo ID
-      if (hitosForm && hitosForm.length > 0) {
-        console.log(`2️⃣ Guardando ${hitosForm.length} hitos para la WO ID: ${nuevoWorkOrderId}`);
+      console.log(
+        'WORK ORDER ID:',
+        workOrderId
+      );
 
-        for (const hito of hitosForm) {
-          const cleanFechaSolicitud = !hito.fecha_solicitud_vb || hito.fecha_solicitud_vb === 'Invalid date' ? null : hito.fecha_solicitud_vb;
-          const cleanFechaConcesion = !hito.fecha_concesion_vb || hito.fecha_concesion_vb === 'Invalid date' ? null : hito.fecha_concesion_vb;
+      // ==========================================
+      // HITOS
+      // ==========================================
 
-          const payloadHito = {
-            ...hito,
-            id_work_order: nuevoWorkOrderId, // ID inyectado
-            fecha_solicitud_vb: cleanFechaSolicitud,
-            fecha_concesion_vb: cleanFechaConcesion
-          };
+      for (const hito of hitosForm) {
 
-          delete payloadHito.fechaSolicitudVb;
-          delete payloadHito.fechaConcesionVb;
-          delete payloadHito.workOrderId;
+        console.log(
+          'Procesando hito:',
+          hito
+        );
 
-          if (hito.id) {
+        const payloadHito = {
 
-            await updateHito(
-              hito.id,
-              payloadHito
-            );
+          ...hito,
 
-          } else {
+          id_work_order:
+            workOrderId,
 
-            await createHito(
-              payloadHito
-            );
+          fecha_solicitud_vb:
+            !hito.fecha_solicitud_vb ||
+              hito.fecha_solicitud_vb ===
+              'Invalid date'
+              ? null
+              : hito.fecha_solicitud_vb,
 
-          }
+          fecha_concesion_vb:
+            !hito.fecha_concesion_vb ||
+              hito.fecha_concesion_vb ===
+              'Invalid date'
+              ? null
+              : hito.fecha_concesion_vb
+
+        };
+
+        delete payloadHito.fechaSolicitudVb;
+        delete payloadHito.fechaConcesionVb;
+        delete payloadHito.workOrderId;
+
+        if (hito.id) {
+
+          console.log(
+            'UPDATE HITO',
+            hito.id
+          );
+
+          await updateHito(
+            hito.id,
+            payloadHito
+          );
+
+        } else {
+
+          console.log(
+            'CREATE HITO'
+          );
+
+          await createHito(
+            payloadHito
+          );
+
         }
+
       }
 
-      console.log("🎉 ¡Proceso completado con éxito!");
-      onSaved?.(); // Avisa al padre para refrescar la lista general
-      onClose();   // Cierra el modal
+      console.log(
+        '🎉 Proceso completado'
+      );
+
+      onSaved?.();
+
+      onClose?.();
 
     } catch (error) {
-      console.error("🚨 Error crítico en el guardado conjunto:", error);
+
+      console.error(
+        '🚨 Error guardando WO',
+        error
+      );
+
     } finally {
+
       setSaving(false);
+
     }
+
   };
 
+  // =====================================================
+  // RENDER
+  // =====================================================
 
   return (
+
     <Modal
       open={open}
       onClose={onClose}
-      title={workOrder?.id ? 'Editar Work Order' : 'Nueva Work Order'}
+      title={
+        workOrder?.id
+          ? 'Editar Work Order'
+          : 'Nueva Work Order'
+      }
       size="xl"
     >
+
       <Stack gap="xl">
 
-        {/* FORMULARIO DE CABECERA */}
         <WorkOrderForm
           initialData={workOrder}
           projectId={projectId}
-          // 💡 Cada vez que el usuario escriba algo en el form, actualiza el estado del modal
-          onChangeForm={(data) => setFormData(data)}
-          isModalControlled={true} // Una bandera para decirle al formulario que no se guarde a sí mismo
+          isModalControlled={true}
+          onChangeForm={setFormData}
         />
 
-        {/* TABLA EDITABLE DE HITOS */}
         <HitosTableEditable
           workOrderId={workOrder?.id}
-          workOrderImporte={formData?.precio || workOrder?.precio || 0} // 🎯 ¡Corregido! Lee del estado local
-          onChangeHitos={(hitosActualizados) => setHitosForm(hitosActualizados)} // 🎯 ¡Corregido! Sincroniza el array
+          workOrderImporte={
+            formData?.precio ||
+            workOrder?.precio ||
+            0
+          }
+          onChangeHitos={
+            setHitosForm
+          }
         />
 
-        {/* BOTÓN ÚNICO DE ACCIÓN AL FINAL DEL MODAL */}
-        {/* {!workOrder?.id && (
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
-            <Button onClick={handleSaveTodo} disabled={saving} className="btn-primary">
-              {saving ? 'Guardando todo...' : 'Crear Work Order e Hitos'}
-            </Button>
-          </div>
-        )} */}
+        <WorkOrderTasksPanel
+          workOrderId={workOrder?.id}
+        />
 
         <div
           style={{
@@ -171,11 +262,13 @@ const WorkOrderModal = ({
             marginTop: '1rem'
           }}
         >
+
           <Button
             onClick={handleSaveTodo}
             disabled={saving}
             className="btn-primary"
           >
+
             {
               saving
                 ? 'Guardando...'
@@ -183,11 +276,17 @@ const WorkOrderModal = ({
                   ? 'Guardar Cambios'
                   : 'Crear Work Order'
             }
+
           </Button>
+
         </div>
+
       </Stack>
+
     </Modal>
+
   );
+
 };
 
 export default WorkOrderModal;

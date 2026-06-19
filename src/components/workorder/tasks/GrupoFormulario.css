@@ -1,0 +1,83 @@
+/* Contenedor del grupo completo */
+.grupo-formulario-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Espaciado de 24px entre el bloque de Nombre y Descripción */
+  width: 100%;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Bloque individual de cada campo */
+.form-campo-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Fila de la etiqueta (Icono + Título + Asterisco) */
+.form-campo-label {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem; /* 6px de separación */
+  font-size: 0.75rem; /* text-xs */
+  font-weight: 500;
+  color: #6b7280; /* gray-500 */
+  margin-bottom: 0.375rem; /* Espacio antes del input */
+  cursor: pointer;
+}
+
+/* Icono del label */
+.form-campo-icono {
+  width: 0.875rem; /* 14px */
+  height: 0.875rem;
+  color: #0284c7;    /* 👈 Cambiado a azul */
+  stroke-width: 2.5; /* 👈 Añade esto para hacerlo "negrita" */
+}
+
+/* Título del campo */
+.form-campo-titulo {
+  color: #4b5563; /* gray-600 */
+}
+
+/* Asterisco obligatorio */
+.form-campo-asterisco {
+  color: #ef4444; /* red-500 */
+  font-weight: 600;
+}
+
+/* Contenedor del input */
+.form-input-wrapper {
+  width: 100%;
+}
+
+/* Estilo base para Input y Textarea */
+.form-input {
+  width: 100%;
+  padding: 0.625rem 1rem; /* py-2.5 px-4 */
+  background-color: #f9fafb; /* gray-50 */
+  border: 1px solid #e5e7eb; /* gray-200 */
+  border-radius: 0.5rem; /* 8px */
+  font-size: 0.875rem; /* text-sm */
+  color: #374151; /* gray-700 */
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+}
+
+/* Focus: cuando el usuario pincha para escribir */
+.form-input:focus {
+  outline: none;
+  border-color: #38bdf8; /* sky-400 */
+  background-color: #ffffff; /* Se vuelve blanco al escribir */
+  box-shadow: 0 0 0 1px #38bdf8;
+}
+
+/* Placeholder */
+.form-input::placeholder {
+  color: #9ca3af; /* gray-400 */
+}
+
+/* Ajuste específico para el Textarea (Descripción) */
+.form-textarea {
+  resize: none; /* Evita que el usuario lo deforme */
+  font-family: inherit; /* Mantiene la misma tipografía */
+}

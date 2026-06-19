@@ -1,0 +1,30 @@
+.tasks-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.tasks-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.tasks-header p {
+  margin: 4px 0 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.tasks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tasks-actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+}

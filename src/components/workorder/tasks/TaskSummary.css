@@ -1,0 +1,26 @@
+.task-summary-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(160px, 1fr));
+
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.task-summary-card {
+  padding: 18px;
+  text-align: center;
+}
+
+.task-summary-card span {
+  display: block;
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.task-summary-card strong {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0f172a;
+}

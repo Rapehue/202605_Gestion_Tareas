@@ -2,28 +2,24 @@ import { useEffect, useState } from 'react';
 
 import {
   BriefcaseBusiness,
-  Building2,
-  CalendarDays,
-  ClipboardList,
-  Coins,
-  FileText,
-  Save,
-  Timer
+  Save
 } from 'lucide-react';
 
-import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 
-import {
-  WO_STATUS
-} from '@/constants/workOrderStatus';
+import WorkOrderHeader
+  from './workorder/WorkOrderHeader';
+
+import WorkOrderObjectivesSection
+  from './workorder/WorkOrderObjectivesSection';
+
+import WorkOrderPlanningSection
+  from './workorder/WorkOrderPlanningSection';
+
+import WorkOrderFinancialSection
+  from './workorder/WorkOrderFinancialSection';
 
 import './WorkOrderForm.css';
-import WorkOrderStatusBadge from './WorkOrderStatusBadge';
-import WorkOrderHeader from './workorder/WorkOrderHeader';
-import WorkOrderObjectivesSection from './workorder/WorkOrderObjectivesSection';
-import WorkOrderPlanningSection from './workorder/WorkOrderPlanningSection';
-import WorkOrderFinancialSection from './workorder/WorkOrderFinancialSection';
 
 const INITIAL_FORM = {
   proveedor: '',
@@ -34,29 +30,25 @@ const INITIAL_FORM = {
   fecha_fin: '',
   jornadas: '',
   precio: '',
-  id_proyecto: '',
+  prioridad: 'MEDIA',
   estado: 'BORRADOR'
 };
 
 const WorkOrderForm = ({
   initialData,
-  projectId,
-  onSaved,
-  isModalControlled = false, // 👈 AÑADIR AQUÍ (con un valor por defecto)
-  onChangeForm               // 👈 AÑADIR AQUÍ
+  onChangeForm,
+  isModalControlled = false
 }) => {
 
   const [form, setForm] =
     useState(INITIAL_FORM);
 
-  // const [saving, setSaving] =
-  //   useState(false);
+  const isEdit =
+    Boolean(initialData?.id);
 
-  const isEdit = !!initialData;
-
-  // =====================================================
-  // LOAD DATA
-  // =====================================================
+  // =====================================
+  // LOAD
+  // =====================================
 
   useEffect(() => {
 
@@ -67,8 +59,6 @@ const WorkOrderForm = ({
         ...initialData
       });
 
-      console.log(initialData)
-
     } else {
 
       setForm(INITIAL_FORM);
@@ -77,18 +67,27 @@ const WorkOrderForm = ({
 
   }, [initialData]);
 
-  // Dentro de WorkOrderForm.jsx:
+  // =====================================
+  // SYNC WITH MODAL
+  // =====================================
 
-  // Cada vez que el estado interno 'form' cambie, se lo enviamos al modal
   useEffect(() => {
-    if (isModalControlled) {
-      onChangeForm?.(form);
-    }
-  }, [form, isModalControlled, onChangeForm]); // Añadidas dependencias limpias para evitar warnings
 
-  // =====================================================
+    if (isModalControlled) {
+
+      onChangeForm?.(form);
+
+    }
+
+  }, [
+    form,
+    isModalControlled,
+    onChangeForm
+  ]);
+
+  // =====================================
   // CHANGE
-  // =====================================================
+  // =====================================
 
   const handleChange = (
     field,
@@ -102,127 +101,13 @@ const WorkOrderForm = ({
 
   };
 
-  // =====================================================
-  // SUBMIT
-  // =====================================================
-
-  const handleSubmit = (e) => e.preventDefault();
-  // const handleSubmit = async (e) => {
-
-  //   e.preventDefault();
-
-  //   try {
-
-  //     setSaving(true);
-
-  //     const cleanPayload = {
-  //       ...form,
-  //       codigo: form.codigo?.trim() || '',
-  //       id_proyecto: parseInt(projectId, 10),
-  //       precio: Number(form.precio || 0),
-  //       jornadas: Number(form.jornadas || 0)
-  //     };
-
-  //     let workOrderId;
-
-  //     // =====================================
-  //     // WORK ORDER
-  //     // =====================================
-
-  //     if (isEdit) {
-
-  //       console.log('✏️ Actualizando WO');
-
-  //       console.log(
-  //         'PAYLOAD UPDATE WO:',
-  //         cleanPayload
-  //       );
-
-  //       await updateWorkOrder(
-  //         initialData.id,
-  //         cleanPayload
-  //       );
-
-  //       workOrderId = initialData.id;
-
-  //     } else {
-
-  //       console.log('➕ Creando WO');
-
-  //       const nuevaWO =
-  //         await createWorkOrder(
-  //           cleanPayload
-  //         );
-
-  //       workOrderId =
-  //         nuevaWO.id ||
-  //         nuevaWO.id_work_order;
-
-  //     }
-
-  //     // // =====================================
-  //     // // HITOS
-  //     // // =====================================
-
-  //     // if (hitosForm?.length) {
-
-  //     //   for (const hito of hitosForm) {
-
-  //     //     const payloadHito = {
-  //     //       ...hito,
-  //     //       id_work_order: workOrderId
-  //     //     };
-
-  //     //     if (hito.id) {
-
-  //     //       await updateHito(
-  //     //         hito.id,
-  //     //         payloadHito
-  //     //       );
-
-  //     //     } else {
-
-  //     //       await createHito(
-  //     //         payloadHito
-  //     //       );
-
-  //     //     }
-
-  //     //   }
-
-  //     // }
-
-  //     onSaved?.();
-
-  //   } catch (error) {
-
-  //     console.error(
-  //       'ERROR EN EL PROCESO DE GUARDADO:',
-  //       error
-  //     );
-
-  //   } finally {
-
-  //     setSaving(false);
-
-  //   }
-
-  // };
-
-  // =====================================================
+  // =====================================
   // RENDER
-  // =====================================================
+  // =====================================
 
   return (
 
-    <form
-      className="workorder-form"
-      onSubmit={handleSubmit}
-    >
-
-      {/* ========================================== */}
-      {/* HEADER */}
-      {/* ========================================== */}
+    <div className="workorder-form">
 
       <div className="wo-form-header">
 
@@ -230,21 +115,29 @@ const WorkOrderForm = ({
 
           <div className="wo-form-icon">
 
-            <BriefcaseBusiness size={20} />
+            <BriefcaseBusiness
+              size={20}
+            />
 
           </div>
 
           <div>
 
             <h2>
-              {isEdit
-                ? 'Editar Work Order'
-                : 'Nueva Work Order'}
+
+              {
+                isEdit
+                  ? 'Editar Work Order'
+                  : 'Nueva Work Order'
+              }
+
             </h2>
 
             <p>
-              Gestión económica y
-              operativa de la orden
+
+              Gestión económica y operativa
+              de la orden de trabajo
+
             </p>
 
           </div>
@@ -258,37 +151,17 @@ const WorkOrderForm = ({
         onChange={handleChange}
       />
 
-      {/* ========================================== */}
-      {/* MAIN GRID */}
-      {/* ========================================== */}
-
       <div className="wo-form-grid">
-
-        {/* ====================================== */}
-        {/* IDENTIFICACIÓN */}
-        {/* ====================================== */}
-
-        {/* ====================================== */}
-        {/* OBJETIVOS */}
-        {/* ====================================== */}
 
         <WorkOrderObjectivesSection
           form={form}
           onChange={handleChange}
         />
 
-        {/* ====================================== */}
-        {/* PLANIFICACIÓN */}
-        {/* ====================================== */}
-
         <WorkOrderPlanningSection
           form={form}
           onChange={handleChange}
         />
-
-        {/* ====================================== */}
-        {/* ECONÓMICO */}
-        {/* ====================================== */}
 
         <WorkOrderFinancialSection
           form={form}
@@ -297,29 +170,7 @@ const WorkOrderForm = ({
 
       </div>
 
-      {/* ========================================== */}
-      {/* ACTIONS */}
-      {/* ========================================== */}
-
-      {/* <div className="wo-form-actions">
-
-        <Button
-          type="submit"
-          className="wo-save-btn"
-          disabled={saving}
-        >
-
-          <Save size={16} />
-
-          {saving
-            ? 'Guardando...'
-            : 'Guardar Work Order'}
-
-        </Button>
-
-      </div> */}
-
-    </form>
+    </div>
 
   );
 
