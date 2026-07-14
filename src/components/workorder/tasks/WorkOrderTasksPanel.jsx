@@ -52,15 +52,48 @@ const WorkOrderTasksPanel = ({ workOrderId }) => {
   // ==========================================
   // HANDLERS (MODIFICAR, AÑADIR, COLAPSAR)
   // ==========================================
-  const handleChange = (index, field, value) => {
+  const handleChange = (
+    index,
+    field,
+    value
+  ) => {
+
+    console.log(
+      'CAMBIO',
+      field,
+      value
+    );
+
     setTasks(prev => {
+
       const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
+
+      const taskActual =
+        updated[index];
+
+      const nuevaTask = {
+        ...taskActual,
         [field]: value
       };
+
+      if (
+        field === 'estado' &&
+        String(value).toUpperCase() === 'PENDIENTE'
+      ) {
+        nuevaTask.entorno = null;
+      }
+
+      updated[index] =
+        nuevaTask;
+
+      console.log(
+        updated[index]
+      );
+
       return updated;
+
     });
+
   };
 
   const handleAdd = () => {
@@ -182,14 +215,76 @@ const WorkOrderTasksPanel = ({ workOrderId }) => {
 
   };
 
+  const refreshTaskData =
+    async () => {
+
+      await loadTasks();
+
+    };
+
   // ==========================================
   // CÓMPUTO DE MÉTRICAS (RESUMEN)
   // ==========================================
   // Nota: Pasados a mayúsculas si tu BD usa 'PENDIENTE', 'EN_CURSO', etc.
-  const pendientes = tasks.filter(t => t.estado?.toUpperCase() === 'PENDIENTE').length;
-  const enCurso = tasks.filter(t => t.estado?.toUpperCase() === 'EN_CURSO').length;
-  const bloqueadas = tasks.filter(t => t.estado?.toUpperCase() === 'BLOQUEADA').length;
-  const finalizadas = tasks.filter(t => t.estado?.toUpperCase() === 'FINALIZADA').length;
+  const tareasPendientes =
+    tasks.filter(
+      t => t.estado?.toUpperCase() === 'PENDIENTE'
+    );
+
+  const tareasEnCurso =
+    tasks.filter(
+      t => t.estado?.toUpperCase() === 'EN_CURSO'
+    );
+
+  const tareasBloqueadas =
+    tasks.filter(
+      t => t.estado?.toUpperCase() === 'BLOQUEADA'
+    );
+
+  const tareasFinalizadas =
+    tasks.filter(
+      t => t.estado?.toUpperCase() === 'FINALIZADA'
+    );
+
+  const pendientes = tareasPendientes.length;
+  const enCurso = tareasEnCurso.length;
+  const bloqueadas = tareasBloqueadas.length;
+  const finalizadas = tareasFinalizadas.length;
+
+  const horasPendientes =
+    tareasPendientes.reduce(
+      (total, task) =>
+        total + Number(task.estimacion_horas || 0),
+      0
+    );
+
+  const horasEnCurso =
+    tareasEnCurso.reduce(
+      (total, task) =>
+        total + Number(task.estimacion_horas || 0),
+      0
+    );
+
+  const horasBloqueadas =
+    tareasBloqueadas.reduce(
+      (total, task) =>
+        total + Number(task.estimacion_horas || 0),
+      0
+    );
+
+  const horasFinalizadas =
+    tareasFinalizadas.reduce(
+      (total, task) =>
+        total + Number(task.estimacion_horas || 0),
+      0
+    );
+
+  const horasTotales =
+    tasks.reduce(
+      (total, task) =>
+        total + Number(task.estimacion_horas || 0),
+      0
+    );
 
   return (
     <Card>
@@ -207,10 +302,15 @@ const WorkOrderTasksPanel = ({ workOrderId }) => {
       {/* METRIC BADGES */}
       <TaskSummary
         total={tasks.length}
+        horasTotales={horasTotales}
         pendientes={pendientes}
+        pendientesHoras={horasPendientes}
         enCurso={enCurso}
+        enCursoHoras={horasEnCurso}
         bloqueadas={bloqueadas}
+        bloqueadasHoras={horasBloqueadas}
         finalizadas={finalizadas}
+        finalizadasHoras={horasFinalizadas}
       />
 
       {/* TASKS LIST */}
@@ -221,9 +321,10 @@ const WorkOrderTasksPanel = ({ workOrderId }) => {
             task={task}
             index={index}
             onChange={handleChange}
-            onDuplicate={handleDuplicate}
             collapsed={collapsedTasks[index] || false}
             onToggle={() => toggleTask(index)}
+            onDuplicate={handleDuplicate}
+            onRefresh={loadTasks}
           />
         ))}
       </div>

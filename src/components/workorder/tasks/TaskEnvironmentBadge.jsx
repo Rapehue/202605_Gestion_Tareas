@@ -1,42 +1,29 @@
+import { TASK_ENVIRONMENTS } from '@/constants/taskEnvironments';
+
 import './TaskBadges.css';
 
-const CONFIG = {
-
-  DESARROLLO: {
-    icon: '🖥',
-    label: 'Desarrollo',
-    className: 'env-des'
-  },
-
-  PREPRODUCCION: {
-    icon: '🧪',
-    label: 'Preproducción',
-    className: 'env-pre'
-  },
-
-  PRODUCCION: {
-    icon: '🚀',
-    label: 'Producción',
-    className: 'env-pro'
-  }
-
-};
-
-const EnvironmentBadge = ({
-  environment
-}) => {
+const TaskEnvironmentBadge = ({ environment }) => {
 
   if (!environment) return null;
 
-  const config =
-    CONFIG[environment];
+  const config = TASK_ENVIRONMENTS.find(
+    env => env.value === environment
+  );
 
   if (!config) return null;
+
+  const className = {
+    DESARROLLO: 'env-des',
+    TESTING: 'env-test',
+    PREPRODUCCION: 'env-pre',
+    PRODUCCION: 'env-pro'
+  }[config.value];
 
   return (
 
     <span
-      className={`environment-badge ${config.className}`}
+      className={`environment-badge ${className}`}
+      title={config.description}
     >
 
       <span className="environment-icon">
@@ -53,4 +40,4 @@ const EnvironmentBadge = ({
 
 };
 
-export default EnvironmentBadge;
+export default TaskEnvironmentBadge;

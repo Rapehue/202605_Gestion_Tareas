@@ -9,6 +9,23 @@ export const formatDate = (date) => {
 
 };
 
+export const formatDateTime = (datetime) => {
+
+  if (!datetime) return '--';
+
+  const [date, time] =
+    datetime.split('T');
+
+  const [year, month, day] =
+    date.split('-');
+
+  const [hms, milisecond] =
+    time.split('.');
+
+  return `${day}/${month}/${year} ${hms}`;
+
+};
+
 export const calculateWorkingDays = (
   startDate,
   endDate

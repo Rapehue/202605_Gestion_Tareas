@@ -24,19 +24,20 @@ const CurrencyInput = ({
   const inputValue = value ?? '';
 
   const handleInputChange = (e) => {
-    const { name, value: rawValue } = e.target;
 
-    // Si el usuario borra el campo, pasamos null o hilo vacío para limpiar el estado limpiamente
-    if (rawValue === '') {
-      onChange({ target: { name, value: '' } });
-      return;
-    }
+  const rawValue = e.target.value;
 
-    // Convertimos a número flotante para que el estado de React siempre guarde un tipo numérico puro
-    const numericValue = parseFloat(rawValue);
-    
-    onChange({ target: { name, value: numericValue } });
-  };
+  if (rawValue === '') {
+
+    onChange('');
+
+    return;
+
+  }
+
+  onChange(parseFloat(rawValue));
+
+};
 
   return (
     <div className={`currency-input-wrapper ${error ? 'has-error' : ''} ${rest.disabled ? 'is-disabled' : ''}`}>

@@ -11,35 +11,19 @@ import TaskStatusBadge from './TaskStatusBadge';
 import TaskPriorityBadge from './TaskPriorityBadge';
 import EntornoSelector from './EntornoSelector';
 import TaskEnvironmentBadge from './TaskEnvironmentBadge';
+import TaskDeploymentTimeline from './TaskDeploymentTimeline';
 
-const TIPOS_TAREA = {
-  DISENO: 'Diseño',
-  MODELADO: 'Modelado',
-  POWERCENTER: 'PowerCenter',
-  CONTROLM: 'Control-M',
-  DOCUMENTACION: 'Documentación',
-  SIMULACION: 'Simulación',
-  OTROS: 'Otros'
-};
+import { TASK_TYPES } from '@/constants/taskTypes';
 
-export const TASK_ENVIRONMENTS = [
-
-  {
-    value: 'DESARROLLO',
-    label: 'Desarrollo'
-  },
-
-  {
-    value: 'PREPRODUCCION',
-    label: 'Preproducción'
-  },
-
-  {
-    value: 'PRODUCCION',
-    label: 'Producción'
-  }
-
-];
+// const TIPOS_TAREA = {
+//   DISENO: 'Diseño',
+//   MODELADO: 'Modelado',
+//   POWERCENTER: 'PowerCenter',
+//   CONTROLM: 'Control-M',
+//   DOCUMENTACION: 'Documentación',
+//   SIMULACION: 'Simulación',
+//   OTROS: 'Otros'
+// };
 
 const TaskCardEditable = ({
   task = {},
@@ -47,7 +31,8 @@ const TaskCardEditable = ({
   onChange,
   onDuplicate,
   collapsed = false,
-  onToggle
+  onToggle,
+  onRefresh
 }) => {
   const {
     codigo = '',
@@ -63,6 +48,15 @@ const TaskCardEditable = ({
     estimacion_horas = 0,
     avance = 0
   } = task;
+
+  const taskType =
+
+    TASK_TYPES[tipo] ||
+
+    TASK_TYPES.OTROS;
+
+  const supportsDeployment =
+    taskType.deployment;
 
   const handleFieldChange = (field, eventOrValue) => {
     let value;
@@ -90,9 +84,15 @@ const TaskCardEditable = ({
     }
   };
 
+  // const mostrarEntorno =
+
+  //   tipo === 'POWERCENTER' &&
+
+  //   estado !== 'PENDIENTE';
+
   const mostrarEntorno =
 
-    tipo === 'POWERCENTER' &&
+    supportsDeployment &&
 
     estado !== 'PENDIENTE';
 
@@ -193,7 +193,13 @@ const TaskCardEditable = ({
     onChange: (e) => handleFieldChange('avance', e)
   };
 
-  const tipoLabel = TIPOS_TAREA[tipo] || 'Otros';
+  // const tipoLabel = TIPOS_TAREA[tipo] || 'Otros';
+
+  const tipoLabel =
+    TASK_TYPES[tipo]?.label ||
+    TASK_TYPES.OTROS.label;
+
+  console.log('TASK =>', task);
 
   return (
     <ContenedorDesplegable
@@ -204,7 +210,12 @@ const TaskCardEditable = ({
         <>
           <TaskStatusBadge status={estado} />
           <TaskPriorityBadge priority={prioridad} />
-          <TaskEnvironmentBadge environment={entorno} />
+          {task.estado !== 'pendiente' &&
+            task.entorno && (
+              <TaskEnvironmentBadge
+                environment={task.entorno}
+              />
+            )}
         </>
       )}
       isOpenExternal={!collapsed}
@@ -227,7 +238,8 @@ const TaskCardEditable = ({
 
             <EntornoSelector
 
-              value={entorno}
+              value={entorno || ''}
+              disabled={estado === 'pendiente'}
 
               onChange={(value) =>
                 handleFieldChange(
@@ -242,6 +254,17 @@ const TaskCardEditable = ({
 
         )}
         <FilaMetricas configResponsable={datosResponsable} configJornadas={datosJornadas} configAvance={datosAvance} />
+        {/* {tipo === 'POWERCENTER' && */}
+        {supportsDeployment &&
+          estado !== 'PENDIENTE' && (
+            <TaskDeploymentTimeline
+              taskId={task.id}
+              deployments={task.deployments || []}
+              taskStatus={estado}
+              deploymentFlow={taskType.deploymentFlow}
+              onRefresh={onRefresh}
+            />
+          )}
       </div>
     </ContenedorDesplegable>
   );

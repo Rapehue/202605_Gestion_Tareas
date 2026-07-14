@@ -1,60 +1,26 @@
-import './EntornoSelector.css';
+import Select from '@/components/forms/Select';
 
-const OPTIONS = [
-
-  {
-    value: 'DESARROLLO',
-    label: 'DES'
-  },
-
-  {
-    value: 'PREPRODUCCION',
-    label: 'PRE'
-  },
-
-  {
-    value: 'PRODUCCION',
-    label: 'PRO'
-  }
-
-];
+import { TASK_ENVIRONMENTS } from '@/constants/taskEnvironments';
 
 const EntornoSelector = ({
   value,
-  onChange
+  onChange,
+  disabled = false
 }) => {
+
+  const options = TASK_ENVIRONMENTS.map(env => ({
+    value: env.value,
+    label: `${env.icon} ${env.label}`
+  }));
 
   return (
 
-    <div className="env-selector">
-
-      {OPTIONS.map(env => (
-
-        <button
-
-          key={env.value}
-
-          type="button"
-
-          className={
-            value === env.value
-              ? 'env-btn active'
-              : 'env-btn'
-          }
-
-          onClick={() =>
-            onChange(env.value)
-          }
-
-        >
-
-          {env.label}
-
-        </button>
-
-      ))}
-
-    </div>
+    <Select
+      value={value || ''}
+      options={options}
+      disabled={disabled}
+      onChange={(e) => onChange(e.target.value)}
+    />
 
   );
 

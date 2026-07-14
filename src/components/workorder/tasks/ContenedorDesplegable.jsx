@@ -29,10 +29,16 @@ const ContenedorDesplegable = ({
 
         {/* TEXTO */}
         <div className="desplegable-textos">
-          {badges && <div className="desplegable-badges">{badges}</div>}
           <h2 className="desplegable-titulo">{titulo}</h2>
           {subtitulo && <p className="desplegable-subtitulo">{subtitulo}</p>}
         </div>
+
+        {/* COLUMNA 3 NUEVA: BADGES (Ubicado entre texto y acciones) */}
+        {badges && (
+          <div className="desplegable-badges-columna">
+            {badges}
+          </div>
+        )}
 
         {/* FLECHA */}
         <div className="desplegable-actions">

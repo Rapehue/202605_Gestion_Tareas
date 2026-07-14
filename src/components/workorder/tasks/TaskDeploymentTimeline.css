@@ -1,0 +1,168 @@
+.deployment-card {
+
+  margin-top: 1rem;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 12px;
+
+  padding: 1rem;
+
+  background: #fafafa;
+
+}
+
+.deployment-header {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.5rem;
+
+  font-size: 0.9rem;
+
+  font-weight: 600;
+
+  color: #374151;
+
+  margin-bottom: 1rem;
+
+}
+
+.deployment-progress {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin-bottom: 1.25rem;
+
+}
+
+.deployment-step {
+
+  display: flex;
+
+  align-items: center;
+
+}
+
+.deployment-icon {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+}
+
+.deployment-icon.completed {
+
+  color: #10b981;
+
+}
+
+.deployment-icon.pending {
+
+  color: #d1d5db;
+
+}
+
+.deployment-line {
+
+  width: 80px;
+
+  height: 2px;
+
+  background: #d1d5db;
+
+}
+
+.deployment-line.completed {
+
+  background: #10b981;
+
+}
+
+.deployment-list {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0.75rem;
+
+}
+
+.deployment-row {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+}
+
+.deployment-env {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.5rem;
+
+  font-weight: 500;
+
+}
+
+.deployment-info {
+
+  display: flex;
+
+  gap: 1rem;
+
+}
+
+.deployment-date {
+
+  color: #111827;
+
+  font-size: 0.85rem;
+
+}
+
+.deployment-user {
+
+  color: #6b7280;
+
+  font-size: 0.85rem;
+
+}
+
+.deployment-pending {
+
+  color: #9ca3af;
+
+  font-size: 0.85rem;
+
+  font-style: italic;
+
+}
+
+.deployment-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.deployment-actions button {
+  min-height: 30px;
+  padding: 0 10px;
+  font-size: 0.8rem;
+  border-radius: 999px;
+}

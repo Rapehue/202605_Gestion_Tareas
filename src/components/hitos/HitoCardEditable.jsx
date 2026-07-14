@@ -119,6 +119,18 @@ const HitoCardEditable = ({
           }
         />
 
+        {/* <CurrencyInput
+          label="Importe"
+          value={hito.importe}
+          onChange={(value) =>
+            onChange(
+              index,
+              'importe',
+              value
+            )
+          }
+        /> */}
+
         <CurrencyInput
           label="Importe"
           value={hito.importe}

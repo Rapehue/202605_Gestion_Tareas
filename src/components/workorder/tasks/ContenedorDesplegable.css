@@ -61,7 +61,7 @@
   flex: 1;
   min-width: 0;
   margin-left: 1rem;
-  margin-right: 1rem;
+  margin-right: 0.5rem; /* Reducido para dar espacio */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -87,11 +87,21 @@
   text-overflow: ellipsis;
 }
 
+/* NUEVA COLUMNA 3: Contenedor específico para badges en fila */
+.desplegable-badges-columna {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 1rem; /* Empuja un poco la columna de la flecha/acciones */
+  flex-wrap: nowrap;  /* Evita que se vayan hacia abajo si hay espacio */
+}
+
+/* Modificamos tu regla vieja quitando el margin-top porque ya no está debajo del texto */
 .desplegable-badges {
   display: flex;
   gap: 8px;
-  margin-top: 6px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 /* Columna Derecha: Acciones y Flecha */

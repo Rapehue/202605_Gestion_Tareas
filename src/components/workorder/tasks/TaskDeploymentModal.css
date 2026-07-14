@@ -1,0 +1,67 @@
+.deployment-modal-body{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:24px;
+
+}
+
+.deployment-next-environment{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.deployment-next-label{
+
+    font-size:.9rem;
+
+    color:#6b7280;
+
+}
+
+.deployment-environment-card{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:12px;
+
+    padding:18px;
+
+    border-radius:10px;
+
+    background:#f8fafc;
+
+    border:1px solid #dbeafe;
+
+    font-size:1.05rem;
+
+    font-weight:600;
+
+}
+
+.deployment-environment-icon{
+
+    font-size:28px;
+
+}
+
+.deployment-modal-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:12px;
+
+}
