@@ -44,10 +44,10 @@ const WorkOrderCard = ({
 
   if (!workOrder) return null;
 
-  console.log(
-    'WORKORDER CARD',
-    workOrder
-  );
+  // console.log(
+  //   'WORKORDER CARD',
+  //   workOrder
+  // );
 
   const safeHitos = Array.isArray(hitos)
     ? hitos

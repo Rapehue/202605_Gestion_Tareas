@@ -139,7 +139,7 @@ const WorkOrderTasksPanel = ({ workOrderId }) => {
         if (task.id) {
           await updateTask(task.id, payload);
         } else {
-          console.log(JSON.stringify(task, null, 2));
+          // console.log(JSON.stringify(task, null, 2));
           await createTask(payload);
         }
       }

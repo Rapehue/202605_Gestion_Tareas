@@ -25,13 +25,13 @@ export const getWorkOrdersByProject = async (projectId) => {
 // ======================================================
 export const createWorkOrder = async (payload) => {
   try {
-    console.log('PAYLOAD RECIBIDO EN FRONT:', payload);
+    // console.log('PAYLOAD RECIBIDO EN FRONT:', payload);
     
     const formattedPayload = typeof serializeWorkOrder === 'function' 
       ? serializeWorkOrder(payload) 
       : payload;
       
-    console.log('PAYLOAD SERIALIZADO HACIA BACKEND:', formattedPayload);
+    // console.log('PAYLOAD SERIALIZADO HACIA BACKEND:', formattedPayload);
     
     const response = await api.post('/workorders', formattedPayload);
     const rawData = response?.data || response;
@@ -47,13 +47,13 @@ export const createWorkOrder = async (payload) => {
 // ======================================================
 export const updateWorkOrder = async (id, payload) => {
   try {
-    console.log('PAYLOAD ORIGINAL EN FRONT:', payload);
+    // console.log('PAYLOAD ORIGINAL EN FRONT:', payload);
 
     const formattedPayload = typeof serializeWorkOrder === 'function'
       ? serializeWorkOrder(payload)
       : payload;
 
-    console.log('PAYLOAD SERIALIZADO HACIA BACKEND:', formattedPayload);
+    // console.log('PAYLOAD SERIALIZADO HACIA BACKEND:', formattedPayload);
 
     const response = await api.put(`/workorders/${id}`, formattedPayload);
     const rawData = response?.data || response;

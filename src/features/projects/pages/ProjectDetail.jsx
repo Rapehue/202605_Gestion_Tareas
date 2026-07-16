@@ -31,7 +31,7 @@ const ProjectDetail = () => {
         const foundProject = await getProyectoById(Number(projectId));
         if (isMounted) {
           setProject(foundProject);
-          console.log(foundProject);
+          // console.log(foundProject);
         }
       } catch (error) {
         console.error("Error al cargar el detalle del proyecto:", error);
@@ -51,7 +51,7 @@ const ProjectDetail = () => {
 
   if (!project) return <div className="loading-state">Cargando detalles del proyecto...</div>;
 
-  console.log('DASHBOARD', dashboard);
+  // console.log('DASHBOARD', dashboard);
 
   return (
     <div className="project-detail">
@@ -128,7 +128,7 @@ const ProjectDetail = () => {
               setOpenWO(true);
             }}
             onEdit={(wo) => {
-              console.log('WO EDITAR', wo);
+              // console.log('WO EDITAR', wo);
               setSelectedWO(wo);
               setOpenWO(true);
             }}

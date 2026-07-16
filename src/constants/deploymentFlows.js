@@ -1,11 +1,21 @@
-import { TASK_ENVIRONMENTS } from './taskEnvironments';
+// src/constants/deploymentFlows.js
 
 export const DEPLOYMENT_FLOWS = {
 
-  STANDARD:
+  // Flujo estándar
+  // (PowerCenter)
 
-    TASK_ENVIRONMENTS.filter(
-      env => env.deployable
-    )
+  STANDARD: [
+    'TESTING',
+    'PREPRODUCCION',
+    'PRODUCCION'
+  ],
+
+  // Flujo de Modelado
+
+  MODELADO: [
+    'PREPRODUCCION',
+    'PRODUCCION'
+  ]
 
 };

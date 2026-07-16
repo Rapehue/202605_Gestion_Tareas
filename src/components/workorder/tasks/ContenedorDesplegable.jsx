@@ -49,7 +49,7 @@ const ContenedorDesplegable = ({
             onClick={(e) => {
 
               e.stopPropagation();
-              console.log('DUPLICAR');
+              // console.log('DUPLICAR');
               onDuplicate?.();
 
             }}

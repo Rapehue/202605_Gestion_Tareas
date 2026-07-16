@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import {
   CheckCircle2,
@@ -12,9 +12,9 @@ import Button from '@/components/ui/Button';
 import TaskDeploymentModal from './TaskDeploymentModal';
 
 import { createDeployment } from '@/api/taskDeploymentsApi';
-import { DEPLOYMENT_FLOWS } from '@/constants/deploymentFlows';
 
 import {
+  getDeploymentFlow,
   getDeploymentMap,
   getNextEnvironment
 } from '@/utils/deploymentFlow';
@@ -37,36 +37,27 @@ const TaskDeploymentTimeline = ({
   // ENTORNOS DEL FLUJO
   // =====================================================
 
-  const deployableEnvironments = useMemo(() => {
-
-    return DEPLOYMENT_FLOWS[deploymentFlow] || [];
-
-  }, [deploymentFlow]);
+  const deployableEnvironments = getDeploymentFlow(deploymentFlow);
 
   // =====================================================
   // DESPLIEGUES
   // =====================================================
 
-  const deploymentMap =
-    getDeploymentMap(deployments);
+  const deploymentMap = getDeploymentMap(deployments);
 
   // =====================================================
   // SIGUIENTE DESPLIEGUE POSIBLE
   // =====================================================
 
   const nextEnvironment =
-
-    taskStatus !== 'PENDIENTE'
-
-      ? getNextEnvironment(
+    taskStatus === 'PENDIENTE'
+      ? null
+      : getNextEnvironment(
         deployments,
         deploymentFlow
-      )
-
-      : null;
+      );
 
   const availableEnvironments =
-
     nextEnvironment
       ? [nextEnvironment.value]
       : [];
@@ -290,7 +281,7 @@ const TaskDeploymentTimeline = ({
         onClose={() => setShowModal(false)}
 
         availableEnvironments={availableEnvironments}
-
+        deploymentFlow={deploymentFlow}
         onSave={async payload => {
 
           await createDeployment(

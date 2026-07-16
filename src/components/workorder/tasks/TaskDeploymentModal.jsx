@@ -1,12 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Modal from '@/components/Modal';
 import Button from '@/components/ui/Button';
 import Select from '@/components/forms/Select';
 import TextArea from '@/components/ui/TextArea';
 
-import { TASK_ENVIRONMENTS } from '@/constants/taskEnvironments';
-import { DEPLOYMENT_FLOWS } from '@/constants/deploymentFlows';
+import {
+  getDeploymentFlow
+} from '@/utils/deploymentFlow';
 
 const TaskDeploymentModal = ({
   open,
@@ -31,17 +32,14 @@ const TaskDeploymentModal = ({
 
   }, [open, availableEnvironments]);
 
-  const environmentOptions = useMemo(() => {
-
-    return TASK_ENVIRONMENTS
-
-      .filter(env => env.deployable)
+  const envOptions =
+    getDeploymentFlow(deploymentFlow)
 
       .filter(env =>
-        availableEnvironments.includes(env.value)
+        availableEnvironments.includes(
+          env.value
+        )
       )
-
-      .sort((a, b) => a.order - b.order)
 
       .map(env => ({
 
@@ -50,30 +48,6 @@ const TaskDeploymentModal = ({
         label: `${env.icon} ${env.label}`
 
       }));
-
-  }, [availableEnvironments]);
-
-  const envOptions = (
-
-    DEPLOYMENT_FLOWS[deploymentFlow] || []
-
-  )
-
-    .filter(env =>
-
-      availableEnvironments.includes(
-        env.value
-      )
-
-    )
-
-    .map(env => ({
-
-      value: env.value,
-
-      label: `${env.icon} ${env.label}`
-
-    }));
 
   const handleSave = () => {
 

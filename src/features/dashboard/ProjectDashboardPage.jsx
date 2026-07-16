@@ -24,7 +24,7 @@ const ProjectDashboardPage = ({
   );
 
   useEffect(() => {
-    console.log('DASHBOARD MOUNT');
+    // console.log('DASHBOARD MOUNT');
   }, []);
 
   if (loading) {

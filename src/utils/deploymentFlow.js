@@ -1,38 +1,71 @@
 // src/utils/deploymentFlow.js
 
+import { TASK_ENVIRONMENTS } from '@/constants/taskEnvironments';
 import { DEPLOYMENT_FLOWS } from '@/constants/deploymentFlows';
 
 /**
- * Devuelve el flujo configurado
+ * Devuelve los objetos de entorno
+ * correspondientes al flujo solicitado.
  */
 export function getDeploymentFlow(flow = 'STANDARD') {
+
+  const values =
+    DEPLOYMENT_FLOWS[flow] || [];
+
+  return values
+
+    .map(value =>
+      TASK_ENVIRONMENTS.find(
+        env => env.value === value
+      )
+    )
+
+    .filter(Boolean);
+
+}
+
+/**
+ * Devuelve únicamente los valores
+ * del flujo (TESTING, PREPRODUCCION...)
+ */
+export function getDeploymentValues(flow = 'STANDARD') {
 
   return DEPLOYMENT_FLOWS[flow] || [];
 
 }
 
 /**
- * Devuelve el siguiente entorno donde puede desplegarse
+ * Devuelve un mapa de despliegues.
+ *
+ * {
+ *   TESTING: {...},
+ *   PREPRODUCCION: {...}
+ * }
  */
-export function getNextEnvironment(
-  deployments = [],
-  flow = 'STANDARD'
+export function getDeploymentMap(
+  deployments = []
 ) {
 
-  const deployed =
-    deployments.map(d => d.environment);
+  return deployments.reduce(
 
-  return getDeploymentFlow(flow).find(
+    (map, deployment) => {
 
-    env => !deployed.includes(env.value)
+      map[
+        deployment.environment
+      ] = deployment;
 
-  ) || null;
+      return map;
+
+    },
+
+    {}
+
+  );
 
 }
 
 /**
- * Devuelve el entorno actual
- * (último despliegue realizado)
+ * Último entorno alcanzado.
  */
 export function getCurrentEnvironment(
   deployments = []
@@ -48,40 +81,80 @@ export function getCurrentEnvironment(
 }
 
 /**
- * Indica si un entorno ya está desplegado
+ * Último despliegue realizado.
+ */
+export function getCurrentDeployment(
+  deployments = []
+) {
+
+  if (!deployments.length)
+    return null;
+
+  return deployments[
+    deployments.length - 1
+  ];
+
+}
+
+/**
+ * ¿Está desplegado?
  */
 export function isEnvironmentDeployed(
-  deployments,
+  deployments = [],
   environment
 ) {
 
   return deployments.some(
 
-    d => d.environment === environment
+    deployment =>
+      deployment.environment ===
+      environment
 
   );
 
 }
 
 /**
- * Devuelve un mapa
- * { TESTING: true, PREPRODUCCION:false... }
+ * Devuelve el siguiente entorno
+ * donde puede desplegarse.
  */
-export function getDeploymentMap(
-  deployments = []
+export function getNextEnvironment(
+  deployments = [],
+  flow = 'STANDARD'
 ) {
 
-  return deployments.reduce(
+  const deployed = deployments.map(
+    deployment => deployment.environment
+  );
 
-    (map, dep) => {
+  return getDeploymentFlow(flow).find(
 
-      map[dep.environment] = dep;
+    env =>
+      !deployed.includes(
+        env.value
+      )
 
-      return map;
+  ) || null;
 
-    },
+}
 
-    {}
+/**
+ * Devuelve las opciones
+ * para un Select.
+ */
+export function getEnvironmentOptions(
+  flow = 'STANDARD'
+) {
+
+  return getDeploymentFlow(flow).map(
+
+    env => ({
+
+      value: env.value,
+
+      label: `${env.icon} ${env.label}`
+
+    })
 
   );
 

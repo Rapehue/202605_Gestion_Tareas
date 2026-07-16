@@ -53,7 +53,7 @@ const Proyectos = () => {
 
       const res = await getProyectos();
 
-      console.log('API RESPONSE:', res.data);
+      // console.log('API RESPONSE:', res.data);
 
       setProyectos(res.data || []);
 

@@ -11,7 +11,7 @@ const WorkOrdersPanel = ({ projectId, onCreate, onEdit }) => {
   const { data: workOrders = [], loading, error } = useWorkOrders(projectId);
 
   useEffect(() => {
-    console.log('WORK ORDERS MOUNT');
+    // console.log('WORK ORDERS MOUNT');
   }, []);
 
   // =====================================================

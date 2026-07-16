@@ -15,15 +15,10 @@ import TaskDeploymentTimeline from './TaskDeploymentTimeline';
 
 import { TASK_TYPES } from '@/constants/taskTypes';
 
-// const TIPOS_TAREA = {
-//   DISENO: 'Diseño',
-//   MODELADO: 'Modelado',
-//   POWERCENTER: 'PowerCenter',
-//   CONTROLM: 'Control-M',
-//   DOCUMENTACION: 'Documentación',
-//   SIMULACION: 'Simulación',
-//   OTROS: 'Otros'
-// };
+import {
+  getTaskProgress,
+  isAutomaticProgress
+} from '@/utils/taskProgress';
 
 const TaskCardEditable = ({
   task = {},
@@ -40,7 +35,7 @@ const TaskCardEditable = ({
     estado = 'PENDIENTE',
     prioridad = 'BAJA',
     titulo = '',
-    entorno = '',
+    // entorno = '',
     descripcion = '',
     fecha_inicio = '',
     fecha_fin = '',
@@ -54,6 +49,12 @@ const TaskCardEditable = ({
     TASK_TYPES[tipo] ||
 
     TASK_TYPES.OTROS;
+
+  const automaticProgress =
+    isAutomaticProgress(task);
+
+  const progress =
+    getTaskProgress(task);
 
   const supportsDeployment =
     taskType.deployment;
@@ -70,18 +71,18 @@ const TaskCardEditable = ({
     // Si vuelve a Pendiente
     // eliminamos el entorno
 
-    if (
-      field === 'estado' &&
-      value === 'pendiente'
-    ) {
+    // if (
+    //   field === 'estado' &&
+    //   value === 'pendiente'
+    // ) {
 
-      onChange?.(
-        index,
-        'entorno',
-        null
-      );
+    //   onChange?.(
+    //     index,
+    //     'entorno',
+    //     null
+    //   );
 
-    }
+    // }
   };
 
   // const mostrarEntorno =
@@ -187,10 +188,27 @@ const TaskCardEditable = ({
   };
 
   const datosAvance = {
+
     titulo: '% Avance',
+
     obligatorio: false,
-    value: avance,
-    onChange: (e) => handleFieldChange('avance', e)
+
+    value: automaticProgress
+      ? progress
+      : avance,
+
+    disabled: automaticProgress,
+
+    comentario: automaticProgress
+      ? 'Calculado automáticamente'
+      : '',
+
+    onChange: automaticProgress
+
+      ? undefined
+
+      : (e) => handleFieldChange('avance', e)
+
   };
 
   // const tipoLabel = TIPOS_TAREA[tipo] || 'Otros';
@@ -199,7 +217,6 @@ const TaskCardEditable = ({
     TASK_TYPES[tipo]?.label ||
     TASK_TYPES.OTROS.label;
 
-  console.log('TASK =>', task);
 
   return (
     <ContenedorDesplegable
@@ -211,9 +228,13 @@ const TaskCardEditable = ({
           <TaskStatusBadge status={estado} />
           <TaskPriorityBadge priority={prioridad} />
           {task.estado !== 'pendiente' &&
-            task.entorno && (
+            task.deployments?.length > 0 && (
               <TaskEnvironmentBadge
-                environment={task.entorno}
+                environment={
+                  task.deployments[
+                    task.deployments.length - 1
+                  ]?.environment
+                }
               />
             )}
         </>
@@ -226,7 +247,7 @@ const TaskCardEditable = ({
         <CabeceraFormulario configCampos={misCamposCabecera} />
         <GrupoFormulario campos={misCampos} />
         <FilaFechas fechaIzquierda={configFechaIzquierda} fechaDerecha={configFechaDerecha} />
-        {mostrarEntorno && (
+        {/* {mostrarEntorno && (
 
           <div className="task-environment-section">
 
@@ -237,22 +258,20 @@ const TaskCardEditable = ({
             </label>
 
             <EntornoSelector
-
               value={entorno || ''}
-              disabled={estado === 'pendiente'}
-
+              deploymentFlow={taskType.deploymentFlow}
+              disabled={estado === 'PENDIENTE'}
               onChange={(value) =>
                 handleFieldChange(
                   'entorno',
                   value
                 )
               }
-
             />
 
           </div>
 
-        )}
+        )} */}
         <FilaMetricas configResponsable={datosResponsable} configJornadas={datosJornadas} configAvance={datosAvance} />
         {/* {tipo === 'POWERCENTER' && */}
         {supportsDeployment &&
